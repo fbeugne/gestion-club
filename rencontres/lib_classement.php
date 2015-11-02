@@ -20,10 +20,15 @@ function AffichierClassement($filtre_match, $classement)
     "Assiduité" => array("COUNT(`Résultats`.Code) as assiduite")
   );
 
-  $sql_from = "`Résultats` inner join `Dates` on `Dates`.Date=`Résultats`.Date inner join `Licencies` on `Résultats`.Code=`Licencies`.Code 
-  WHERE ( (" . $filtre_match . ") and Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') 
-  GROUP BY `Résultats`.Code 
+  
+  
+  $sql_from = "`Résultats` INNER JOIN `Dates` on `Dates`.Date=`Résultats`.Date 
+  and ( (" . $filtre_match . ") and Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') 
+  RIGHT JOIN `Licencies` on `Résultats`.Code=`Licencies`.Code
+  WHERE `Licencies`.`$saison_selectionnee` is not null and `Licencies`.`$saison_selectionnee` != 'non'
+  GROUP BY `Licencies`.Code 
   ORDER BY " . $classement;
+    
 
   $conn_db->AfficherTable($DonneesAAfficher, $sql_from);
 }
