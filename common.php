@@ -135,7 +135,7 @@ class BaseDeDonnesPalet
     {
       foreach ($colonne as $champ)
       {
-        if ($champ[0]!= ' ')
+        if (($champ[0]!= ' ') && ($champ != 'num_ligne'))
         {
           if ($liste_champs != "")
           {
@@ -156,7 +156,7 @@ class BaseDeDonnesPalet
 
     $result = $this->RequeteSQL($sql);
 
-    
+    $num_ligne=0;
     echo "<table>";
     // printing table headers
     reset($table_description);
@@ -168,6 +168,7 @@ class BaseDeDonnesPalet
 
     while($array_res = $result->fetch_row())
     {
+      $num_ligne+=1;
       $indice=0;
       echo "<tr>";
       reset($table_description);
@@ -180,6 +181,10 @@ class BaseDeDonnesPalet
           if ($champ[0]==' ')
           {
             echo $champ;
+          }
+          else if ($champ=='num_ligne')
+          {
+            echo "$num_ligne";
           }
           else
           {        

@@ -14,6 +14,7 @@ function AffichierClassement($filtre_match, $classement)
   $annee2 = $gestion_saison->GetAnneeSelectionnee();
 
   $DonneesAAfficher = array(
+    ""  => array("num_ligne"),
     "NOM" => array("`Licencies`.NOM"),
     "Prénom" => array("`Licencies`.Prenom"),
     "Points" => array("SUM(`Résultats`.`Résultat`) as points"),
@@ -28,8 +29,7 @@ function AffichierClassement($filtre_match, $classement)
   WHERE `Licencies`.`$saison_selectionnee` is not null and `Licencies`.`$saison_selectionnee` != 'non'
   GROUP BY `Licencies`.Code 
   ORDER BY " . $classement;
-    
-
+  
   $conn_db->AfficherTable($DonneesAAfficher, $sql_from);
 }
 ?>
