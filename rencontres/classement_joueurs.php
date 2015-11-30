@@ -7,6 +7,10 @@ $match_champ = htmlspecialchars($_POST['match_champ']);
 $match_coupe = htmlspecialchars($_POST['match_coupe']);
 $match_entrainement = htmlspecialchars($_POST['match_entrainement']);
 $classement = htmlspecialchars($_POST['classement']);
+if ($classement == null)
+{
+  $classement = 1; //classement par points par defaut
+}  
 ?>
 
 <form action='<?php echo get_permalink();?>&action=filter_match' method="post">

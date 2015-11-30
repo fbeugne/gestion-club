@@ -51,7 +51,7 @@ Initialisation des variables liées au tye de match
   $conn_db = new BaseDeDonnesPalet();
   
   $sql = "select Code, NOM, Prenom from Licencies
-   where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC";
+   where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
   
   $liste_licencies_req = $conn_db->RequeteSQL($sql);
   

@@ -15,7 +15,7 @@ $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
 
 
 $sql_from = "Licencies inner join Adresse on Licencies.Code=Adresse.Code
- where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC";
+ where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
 
 
 $conn_db = new BaseDeDonnesPalet();

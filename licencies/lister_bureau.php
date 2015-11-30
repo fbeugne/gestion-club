@@ -23,7 +23,7 @@ $conn_db = new BaseDeDonnesPalet();
 echo "<table>";
 foreach ($ListeRole as $role)
 {
-  $sql = "select NOM, Prenom from Licencies where (Licencies.`$saison_selectionnee` = '$role') ORDER BY `Licencies`.`NOM` ASC";
+  $sql = "select NOM, Prenom from Licencies where (Licencies.`$saison_selectionnee` = '$role') ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
   
   $result = $conn_db->RequeteSQL($sql); 
   

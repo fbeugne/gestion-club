@@ -25,7 +25,7 @@ else
 
   $conn_db = new BaseDeDonnesPalet();
   
-  $sql = "Licencies where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC";
+  $sql = "Licencies where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
   
   $DonneesAAfficher = array(
     "NOM" => array("NOM"),

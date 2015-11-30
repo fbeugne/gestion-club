@@ -9,7 +9,7 @@ $gestion_saison = new GestionSaison();
 $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
 
 $sql = "Licencies inner join Naissance on Licencies.Code=Naissance.Code
- where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC";
+ where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
 
  
 $DonneesAAfficher = array(
