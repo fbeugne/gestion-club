@@ -15,7 +15,7 @@ $sql = "Licencies inner join Naissance on Licencies.Code=Naissance.Code
 $DonneesAAfficher = array(
   "NOM" => array("NOM"),
   "Prenom" => array("Prenom"),
-  "Date de naissannce" => array("Jour", " / ", "Mois", " / ", "Année")
+  "Date de naissannce" => array("DATE_FORMAT(DATE_ADD(DATE_ADD(DATE_ADD('0000-01-01', INTERVAL `Naissance`.`Année` YEAR), INTERVAL `Naissance`.`Mois` - 1 MONTH), INTERVAL `Naissance`.`Jour` - 1 DAY), '%d / %m / %Y')")
 );
 
 

@@ -28,14 +28,7 @@ if ($classement == null)
       <td><input type="radio" name="classement" id="classement" value="0" <?php  if ($classement == "0") echo "checked";?> > Ordre alphabétique</td>
       <td><input type="radio" name="classement" id="classement" value="1" <?php  if ($classement == "1") echo "checked";?> > Par points</td>
       <td><input type="radio" name="classement" id="classement" value="2" <?php  if ($classement == "2") echo "checked";?> > Par assiduité</td>
-      <td></td>
-    <tr>
       <td><input type='submit' value='Appliquer' formmethod='post'></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
   </table>
 </form>
 
