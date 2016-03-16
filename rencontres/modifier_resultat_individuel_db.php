@@ -18,6 +18,7 @@ $bareme_11=array(
   "presence" => 40
 );
 
+
 $bareme_13=array(
   0 => 0,
   1 => 0,
@@ -36,14 +37,59 @@ $bareme_13=array(
   "presence" => 40
 );
 
+$bareme_galette_gagne=array(
+  0 => 1000,
+  1 => 1001,
+  2 => 1002,
+  3 => 1003,
+  4 => 1004,
+  5 => 1005,
+  6 => 1006,
+  7 => 1007,
+  8 => 1008,
+  9 => 1009,
+  10 => 1010,
+  11 => 1011,
+  12 => 1012,
+  13 => 1001013,
+  "presence" => 500
+);
+
+$bareme_galette_perdu=array(
+  0 => 0,
+  1 => 1,
+  2 => 2,
+  3 => 3,
+  4 => 4,
+  5 => 5,
+  6 => 6,
+  7 => 7,
+  8 => 8,
+  9 => 9,
+  10 => 10,
+  11 => 11,
+  12 => 12,
+  13 => 13,
+  "presence" => 500
+);
 
 if ($type == "Coupe")
 {
   $bareme = $bareme_13;
+  $bareme_gagne = $bareme;
+  $bareme_perdu = $bareme;
+}
+else if ($type == "Galette")
+{
+  $bareme = $bareme_galette_gagne;
+  $bareme_gagne = $bareme_galette_gagne;
+  $bareme_perdu = $bareme_galette_perdu;
 }
 else
 {
   $bareme = $bareme_11;
+  $bareme_gagne = $bareme;
+  $bareme_perdu = $bareme;
 }
 
 // Une presence vaut 25 points en entraineemnt
@@ -99,7 +145,7 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
       
       if (($gagne != -1) && ($perdu != -1))
       {
-        $total = $total + $bareme[$gagne] - $bareme[$perdu];
+        $total = $total + $bareme_gagne[$gagne] - $bareme_perdu[$perdu];
         $id_partie=$num_partie+1;
         $sql = "update `Résultats` set `pour_$id_partie` = '$gagne' where `Id` = '$id'";
         $conn_db->RequeteSQL($sql);

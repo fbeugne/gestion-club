@@ -7,13 +7,18 @@ $match_champ = htmlspecialchars($_POST['match_champ']);
 $match_coupe = htmlspecialchars($_POST['match_coupe']);
 $match_entrainement = htmlspecialchars($_POST['match_entrainement']);
 $classement = htmlspecialchars($_POST['classement']);
+$action_affichage = htmlspecialchars($_GET['action_affichage']);
+
 if ($classement == null)
 {
   $classement = 1; //classement par points par defaut
-}  
+}
+
+
 ?>
 
-<form action='<?php echo get_permalink();?>&action=filter_match' method="post">
+
+<form>
   <table>
     <tr>
       <td>Filtre des matchs : </td>
@@ -24,16 +29,20 @@ if ($classement == null)
     </tr>
     <tr>
     </tr>   
-      <td>Tri du classement : </td>
-      <td><input type="radio" name="classement" id="classement" value="0" <?php  if ($classement == "0") echo "checked";?> > Ordre alphabétique</td>
-      <td><input type="radio" name="classement" id="classement" value="1" <?php  if ($classement == "1") echo "checked";?> > Par points</td>
-      <td><input type="radio" name="classement" id="classement" value="2" <?php  if ($classement == "2") echo "checked";?> > Par assiduité</td>
-      <td><input type='submit' value='Appliquer' formmethod='post'></td>
+      <td><input type='submit' value='Tri du classement' formaction='<?php echo get_permalink();?>&action_affichage=afficher_resultat' formmethod='post'> </td>
+      <td><input type="radio" name="classement" id="classement" value="0" <?php  if ($classement == "0") echo "checked";?> > Alphabétique</td>
+      <td><input type="radio" name="classement" id="classement" value="1" <?php  if ($classement == "1") echo "checked";?> > Points</td>
+      <td><input type="radio" name="classement" id="classement" value="2" <?php  if ($classement == "2") echo "checked";?> > Assiduité</td>
+      <td><input type="radio" name="classement" id="classement" value="3" <?php  if ($classement == "3") echo "checked";?> > Moyenne</td>
   </table>
 </form>
 
 
 <?
+
+
+
+
 $Filtre_SQL="FALSE";
 $Tri_SQL="";
 if ($match_amical)
@@ -52,6 +61,8 @@ if ($match_entrainement)
 {
   $Filtre_SQL=$Filtre_SQL . " OR Dates.`Type` = 'Entrainement'";
 }
+
+
 if ($classement == "0")
 {
   $Tri_SQL="`Licencies`.NOM ASC, `Licencies`.Prenom ASC";
@@ -64,8 +75,15 @@ if ($classement == "2")
 {
   $Tri_SQL="assiduite DESC, points DESC, `Licencies`.NOM ASC, `Licencies`.Prenom ASC";
 }
+if ($classement == "3")
+{
+  $Tri_SQL="moyenne DESC, assiduite DESC, points DESC, `Licencies`.NOM ASC, `Licencies`.Prenom ASC";
+}
 
+if ($action_affichage == "afficher_resultat")
+{
+  AffichierClassement($Filtre_SQL, $Tri_SQL);
+}
 
-AffichierClassement($Filtre_SQL, $Tri_SQL);
 ?>
 

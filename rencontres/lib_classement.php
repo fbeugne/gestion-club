@@ -18,9 +18,9 @@ function AffichierClassement($filtre_match, $classement)
     "NOM" => array("`Licencies`.NOM"),
     "Prénom" => array("`Licencies`.Prenom"),
     "Points" => array("SUM(`Résultats`.`Résultat`) as points"),
-    "Assiduité" => array("COUNT(`Résultats`.Code) as assiduite")
+    "Assiduité" => array("COUNT(`Résultats`.Code) as assiduite"),
+    "Moyenne" => array("AVG(`Résultats`.`Résultat`) as moyenne")
   );
-
   
   
   $sql_from = "`Résultats` INNER JOIN `Dates` on `Dates`.Date=`Résultats`.Date 

@@ -36,6 +36,12 @@ Initialisation des variables liées au tye de match
     $nb_partie = 6;
     $nb_point_max=11;
   }
+  else if ($type == "Galette")
+  {
+    $title="Tournoi de la galette";
+    $nb_partie = 4;
+    $nb_point_max=13;
+  }
   else
   {
     echo "Type de match $type non pris en compte";
@@ -102,7 +108,7 @@ Affichage du formulaire de saisie de resultats du match
 -->
 
 <?php 
-if ($type != "Entrainement")
+if ( ($type != "Entrainement") && ($type != "Galette"))
 {
 ?>
   
