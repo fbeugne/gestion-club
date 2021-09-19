@@ -112,7 +112,7 @@ if ( ($type != "Entrainement") && ($type != "Galette"))
 {
 ?>
   
-<form action="<?php echo get_permalink() . "&id=".$id."&action=modif_resultat_match_db&date=".$date; ?>" method="post" name="saisie_resultat">
+<form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'modif_resultat_match_db','date'=>$date),get_permalink()); ?>" method="post" name="saisie_resultat">
   <table>
     <tr>
       <td> 
@@ -162,7 +162,7 @@ Affichage du formulaire de saisie de resultats de chaque licencié
 -->
 <div  class="resultat_licencie">
 
-<form action="<?php echo get_permalink() . "&id=".$id."&action=modif_resultat_db&date=".$date; ?>" method="post" name="saisie_resultat">
+<form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'modif_resultat_db','date'=>$date),get_permalink()); ?>" method="post" name="saisie_resultat">
   <table>
 <?php
 

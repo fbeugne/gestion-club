@@ -97,7 +97,7 @@ class BaseDeDonnesPalet
   
 	protected $servername = "localhost";
 	protected $username = "root";
-	protected $password = "admin";
+	protected $password = "root";
 	protected $dbname = "bdpalet";
   
   protected $conn_db;

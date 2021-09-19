@@ -1,6 +1,18 @@
 
 <?php
 
+$action=htmlspecialchars($_GET['action']);
+
+if ($action == "")
+{
+  $action=htmlspecialchars($_POST['action']);
+}
+if ($action=="[modifier_db]")
+{
+  include_once (WPINC . '/gestion-club/licencies/modifier_licencie_db.php');
+}
+
+
 $id=htmlspecialchars($_GET['id']);
 
 if ($id == "")
@@ -13,38 +25,32 @@ include_once (WPINC . '/gestion-club/common.php');
 
 $conn_db = new BaseDeDonnesPalet();
 
-if ($id == "")
+// Affichage d'une liste déroulante pour ajouter un licencié pour la saison courante
+
+$sql = "select Code, NOM, Prenom from Licencies ORDER BY `Licencies`.`NOM` ASC";
+$result_req = $conn_db->RequeteSQL($sql);
+
+echo "<p>";
+echo "<form method='post' action='" . get_permalink() . "'>";
+echo "Sélectionner un licencié existant à la saison : ";
+echo "<select name='id' id='id'>";
+
+while($info_licencies=$result_req->fetch_array(MYSQLI_ASSOC))
 {
-  // Affichage d'une liste déroulante pour ajouter un licencié pour la saison courante
-  
-  $sql = "select Code, NOM, Prenom from Licencies ORDER BY `Licencies`.`NOM` ASC";
-  $result_req = $conn_db->RequeteSQL($sql);
-  
-  echo "<p>";
-  echo "<form method='post' action='" . get_permalink() . "&action=[modifier]'>";
-  echo "Ajouter un licencié existant à la saison : ";
-  echo "<select name='id' id='id'>";
-  
-	while($info_licencies=$result_req->fetch_array(MYSQLI_ASSOC))
-	{
-    echo "<option value='" . $info_licencies["Code"] . "'>";
-    echo $info_licencies['NOM'] . " " . $info_licencies['Prenom'] . "</option>";
-	}
-	
-  echo "</select>";
-  echo "<br>";
-  echo  "<input type='submit' value='OK'/>";
-  echo "</form>";
-  
-  
-  echo "</p>";
-  
-  echo "<hr>";
-  echo "Ajouter un nouveau licencié à la saison : ";
-  
-  
+  echo "<option value='" . $info_licencies["Code"] . "'>";
+  echo $info_licencies['NOM'] . " " . $info_licencies['Prenom'] . "</option>";
 }
-else
+
+echo "</select>";
+echo "<br>";
+echo  "<input type='submit' value='OK'/>";
+echo "</form>";
+
+
+echo "</p>";
+  
+
+if ($id != "")
 {
   $sql = "select * from Licencies where Code = '$id'";
   $result_req = $conn_db->RequeteSQL($sql);
@@ -60,22 +66,20 @@ else
   $result_req = $conn_db->RequeteSQL($sql);
   $result_naissance = $result_req->fetch_array(MYSQLI_ASSOC);
   $result_req->free();
+  
 }
 
+echo "<hr>";
+echo "Ajouter ce licencié à la saison : ";
+  
+
 ?>
 
-<form action="<?php echo get_permalink() . "&id=".$id."&action=[modifier_db]" ?>" method="post">
+<form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'[modifier_db]'),get_permalink()) ?>" method="post">
     <table>
-      
-<?php
-
-  if ($id != "")
-  {
-    echo "<tr>";
-    echo "<td>Code : </td><td><input type='text' name='code' value='" . $result_licencies['Code'] . "' readonly/></td>";
-    echo "</tr>";
-  }
-?>
+        <tr>
+            <td>Code : </td><td><input type="text" name="code" value="<?php echo $result_licencies['Code']; ?>"/></td>
+        </tr>
         <tr>
             <td>Nom : </td><td><input type="text" name="nom" value="<?php echo $result_licencies['NOM']; ?>"/></td>
         </tr>

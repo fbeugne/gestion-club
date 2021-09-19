@@ -148,7 +148,9 @@ Formulaire de gestion des dates
 	
     <td>
       Selectionner une date :
-      <form action='<?php echo get_permalink();?>&action=selection_date' method="post">
+      
+      
+      <form action='<?php echo add_query_arg(array('action'=>'selection_date'),get_permalink());?>' method="post">
         <select name='date' onchange="this.form.submit()">
           
           <option value=""> Nouvelle date </option>
@@ -187,7 +189,7 @@ Formulaire de gestion des dates
       ?>
       
       
-      <form action='<?php echo get_permalink();?>&action=modif_date_db' method="post">
+      <form action='<?php echo add_query_arg(array('action'=>'modif_date_db'),get_permalink());?>' method="post">
         <table>
           <tr>
             <td>Type : </td>
