@@ -15,13 +15,12 @@ class GestionSaison
   
   public function __construct()
   {
+    @session_start();
     $this->UpdateDonneesSaisonSelectionnee();
   }
   
   protected function UpdateDonneesSaisonSelectionnee()
   {
-    session_start();
-    
     // On fixe une variable globale $saison_courante qui sera utilisée pour les requetes sql
     if (isset($_SESSION["saison"]))
     {
@@ -40,7 +39,6 @@ class GestionSaison
   
   function SetSaisonSelectionnee($saison)
   {
-    session_start();
     $_SESSION["saison"] = $saison;
     
     $this->UpdateDonneesSaisonSelectionnee();
@@ -61,13 +59,8 @@ class GestionSaison
   
   function GetSaisonEnCours()
   {
-    $annee = intval(date('Y'));
+    $annee = GetAnneeEnCours();
     
-    // A partir d'avril on commence a préparer la saison suivante
-    if (intval(date('m')) > 4)
-    {
-      $annee = $annee + 1;
-    }
     $annee_prec = $annee - 1;
     return "$annee_prec/$annee";
   }
@@ -191,7 +184,7 @@ class BaseDeDonnesPalet
             // indique une action a effectuer
             if (key($table_description)[0] == '[')
             {
-              echo "<a href=" . get_permalink() . "&id=" . $array_res[$indice] . "&action=" . key($table_description) . ">". key($table_description) ."</a>";
+              echo "<a href=" . add_query_arg(array('id'=>$array_res[$indice],'action'=>key($table_description)),get_permalink()) . ">". key($table_description) ."</a>";
             }
             // sinon on affiche le resultat de la requete sql
             else

@@ -69,13 +69,9 @@ if ($id != "")
   
 }
 
-echo "<hr>";
-echo "Ajouter ce licencié à la saison : ";
-  
-
 ?>
-
-<form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'[modifier_db]'),get_permalink()) ?>" method="post">
+<hr>
+<form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'[modifier_db]'),get_permalink()); ?>" method="post">
     <table>
         <tr>
             <td>Code : </td><td><input type="text" name="code" value="<?php echo $result_licencies['Code']; ?>"/></td>
@@ -111,7 +107,7 @@ echo "Ajouter ce licencié à la saison : ";
             <td>Portable : </td><td><input type="tel" name="portable" value="<?php echo $result_adresse['Portable']; ?>" /></td>
         </tr>
         <tr>
-            <td><input type="submit" value="OK"/></td><td></td>
+            <td><input type="submit" value="Ajouter ce licencié à la saison"/></td><td></td>
         </tr>
     </table>
 </form>

@@ -1,24 +1,30 @@
 
 <?php
 
+
 include (WPINC . '/gestion-club/common.php');
-
-
 
 $gestion_saison = new GestionSaison();
 
-if (htmlspecialchars($_POST['saison']) != "")
+$saison=htmlspecialchars($_GET['saison']);
+if ($saison == "")
 {
-  $gestion_saison->SetSaisonSelectionnee(htmlspecialchars($_POST['saison']));
+  $saison=htmlspecialchars($_POST['saison']);
 }
-
+if ($saison != "")
+{
+  $gestion_saison->SetSaisonSelectionnee($saison);
+}
 $saison_courante = $gestion_saison->GetSaisonSelectionnee();
 $annee_en_cours = $gestion_saison->GetAnneeEnCours();
 
+?>
 
-echo "<form method='post' action='" . get_permalink() . "'>";
-echo "Modifier la saison : ";
-echo "<select name='saison' id='saison' size='1' onchange='this.form.submit()'>";
+
+<form action="<?php get_permalink(); ?>" method="post">
+<select name='saison' id='saison'>
+
+<?php
 $premiere_annee = 1987;
 while ($annee_en_cours > $premiere_annee)
 {
@@ -33,9 +39,9 @@ while ($annee_en_cours > $premiere_annee)
   echo ">$val_print</option>";
   $annee_en_cours = $annee_precedente;
 }
-
-echo "</select>";
-echo "</form>";
-
-
 ?>
+
+</select>
+<br>
+<input type='submit' value='OK'/>
+</form>

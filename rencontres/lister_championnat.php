@@ -1,7 +1,7 @@
 
 <?php
 
-include (WPINC . '/gestion-club/common.php');
+include_once (WPINC . '/gestion-club/common.php');
 
 $conn_db = new BaseDeDonnesPalet();
 
@@ -11,7 +11,7 @@ $annee1 = $gestion_saison->GetAnneeSelectionneePrecedente();
 $annee2 = $gestion_saison->GetAnneeSelectionnee();
 
 $DonneesAAfficher = array(
-  "Date" => array("Date"),
+  "Date" => array("DATE_FORMAT(Date, '%d/%m/%Y')"),
   "Adversaire" => array("Lieu"),
   "Déplacement" => array(" <i>", "CONVERT(REPLACE(REPLACE(Dpct,-1,'En déplacement'),0,'A domicile'),CHAR(20))"),
   "Nb joueurs" => array("nb_joueurs"),

@@ -3,7 +3,7 @@
 
 function AffichierClassement($filtre_match, $classement)
 {
-  include (WPINC . '/gestion-club/common.php');
+  include_once (WPINC . '/gestion-club/common.php');
 
   $conn_db = new BaseDeDonnesPalet();
 
