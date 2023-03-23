@@ -3,7 +3,7 @@
 
 function AffichierClassement($filtre_match, $classement)
 {
-  include_once (WPINC . '/gestion-club/common.php');
+  include_once (gestion_club_dir_path() . '/common.php');
 
   $conn_db = new BaseDeDonnesPalet();
 
@@ -35,7 +35,7 @@ function AffichierClassement($filtre_match, $classement)
 
 function AffichierClassementMatch($filtre_match)
 {
-  include_once (WPINC . '/gestion-club/common.php');
+  include_once (gestion_club_dir_path() . '/common.php');
 
   $conn_db = new BaseDeDonnesPalet();
 

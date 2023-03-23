@@ -3,7 +3,7 @@
 
   $action=htmlspecialchars($_GET['action']);
   
-  include (WPINC . '/gestion-club/rencontres/saisie_date_formulaire.php');
+  include (WP_PLUGIN_DIR . '/gestion-club/rencontres/saisie_date_formulaire.php');
   
   echo "<hr>";
   
@@ -11,6 +11,6 @@
   // il est possible de rentrer les résultats
   if ($date != "")
   {
-    include (WPINC . '/gestion-club/rencontres/saisie_resultat_formulaire.php');
+    include (WP_PLUGIN_DIR . '/gestion-club/rencontres/saisie_resultat_formulaire.php');
   }
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-include (WPINC . '/gestion-club/common.php');
+include (gestion_club_dir_path() . '/common.php');
 
 $gestion_saison = new GestionSaison();
 $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();

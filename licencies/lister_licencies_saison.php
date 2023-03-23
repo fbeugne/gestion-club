@@ -5,20 +5,20 @@ $action=htmlspecialchars($_GET['action']);
 
 if ($action == "[modifier]")
 {
-  include (WPINC . '/gestion-club/licencies/modifier_licencie_formulaire.php');
+  include (gestion_club_dir_path() . '/licencies/modifier_licencie_formulaire.php');
 }
 else
 {
   if ($action == "[modifier_db]")
   {
-    include (WPINC . '/gestion-club/licencies/modifier_licencie_db.php');
+    include (gestion_club_dir_path() . '/licencies/modifier_licencie_db.php');
   }
   if ($action == "[supprimer]")
   {
-    include (WPINC . '/gestion-club/licencies/supprimer_licencie_db.php');
+    include (gestion_club_dir_path() . '/licencies/supprimer_licencie_db.php');
   }
   
-  include_once (WPINC . '/gestion-club/common.php');
+  include_once (gestion_club_dir_path() . '/common.php');
   
   $gestion_saison = new GestionSaison();
   $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();

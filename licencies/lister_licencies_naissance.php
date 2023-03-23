@@ -1,7 +1,7 @@
 
 <?php
 
-include (WPINC . '/gestion-club/common.php');
+include (gestion_club_dir_path() . '/common.php');
 
 $conn_db = new BaseDeDonnesPalet();
 

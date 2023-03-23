@@ -2,7 +2,7 @@
 <?php
 
 
-include (WPINC . '/gestion-club/common.php');
+include (gestion_club_dir_path() . '/common.php');
 
 $gestion_saison = new GestionSaison();
 
@@ -42,6 +42,6 @@ while ($annee_en_cours > $premiere_annee)
 ?>
 
 </select>
-<br>
+
 <input type='submit' value='OK'/>
 </form>

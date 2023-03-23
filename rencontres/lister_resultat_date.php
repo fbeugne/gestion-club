@@ -17,7 +17,7 @@ Action lié au formualaire
     $date = htmlspecialchars($_GET['date']);
   }
   
-  include_once (WPINC . '/gestion-club/common.php');
+  include_once (gestion_club_dir_path() . '/common.php');
 
   
   $conn_db = new BaseDeDonnesPalet();
@@ -71,7 +71,7 @@ Affichage des resultats d'une date
 -->
 <?
 
-include (WPINC . '/gestion-club/rencontres/lib_classement.php');
+include (gestion_club_dir_path() . '/rencontres/lib_classement.php');
 
 if ($date != "")
 {

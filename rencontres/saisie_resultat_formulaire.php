@@ -50,7 +50,7 @@ Initialisation des variables liées au tye de match
   
   echo "$title";
   
-  include_once (WPINC . '/gestion-club/common.php');
+  include_once (gestion_club_dir_path() . '/common.php');
   
   
   $conn_db = new BaseDeDonnesPalet();
@@ -87,7 +87,7 @@ Sauvegarde des donnees dans la base de donnees
   // sauvegarde des resultats dans la base de données
   if ($action == "modif_resultat_match_db")
   {
-    include (WPINC . '/gestion-club/rencontres/modifier_resultat_match_db.php');
+    include (gestion_club_dir_path() . '/rencontres/modifier_resultat_match_db.php');
   }
 ?>
 
@@ -95,7 +95,7 @@ Sauvegarde des donnees dans la base de donnees
   // sauvegarde des resultats dans la base de données
   if ($action == "modif_resultat_db")
   {
-    include (WPINC . '/gestion-club/rencontres/modifier_resultat_individuel_db.php');
+    include (gestion_club_dir_path() . '/rencontres/modifier_resultat_individuel_db.php');
   }
 ?>
 

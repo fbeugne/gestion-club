@@ -1,6 +1,6 @@
 
 <?php
-include (WPINC . '/gestion-club/rencontres/lib_classement.php');
+include (gestion_club_dir_path() . '/rencontres/lib_classement.php');
 
 $match_amical = htmlspecialchars($_POST['match_amical']);
 $match_champ = htmlspecialchars($_POST['match_champ']);
@@ -43,19 +43,19 @@ if ($classement == null)
 
 if ($match_amical)
 {
-  include (WPINC . '/gestion-club/rencontres/lister_championnat.php');
+  include (WP_PLUGIN_DIR . '/gestion-club/rencontres/lister_championnat.php');
 }
 if ($match_champ)
 {
-  include (WPINC . '/gestion-club/rencontres/lister_championnat.php');
+  include (WP_PLUGIN_DIR . '/gestion-club/rencontres/lister_championnat.php');
 }
 if ($match_coupe)
 {
-  include (WPINC . '/gestion-club/rencontres/lister_coupe.php');
+  include (WP_PLUGIN_DIR . '/gestion-club/rencontres/lister_coupe.php');
 }
 if ($match_entrainement)
 {
-  include (WPINC . '/gestion-club/rencontres/lister_entrainement.php');
+  include (WP_PLUGIN_DIR . '/gestion-club/rencontres/lister_entrainement.php');
 }
 
 

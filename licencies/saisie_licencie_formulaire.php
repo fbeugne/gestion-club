@@ -13,7 +13,7 @@ if ($id == "")
   $id=htmlspecialchars($_POST['id']);
 }
 
-include_once (WPINC . '/gestion-club/common.php');
+include_once (gestion_club_dir_path() . '/common.php');
 
 
 $conn_db = new BaseDeDonnesPalet();
@@ -85,7 +85,7 @@ if ($id != "")
   }   
   else if ($action=="[modifier_db]")
   {
-    include_once (WPINC . '/gestion-club/licencies/modifier_licencie_db.php');
+    include_once (gestion_club_dir_path() . '/licencies/modifier_licencie_db.php');
   }
   else 
   {

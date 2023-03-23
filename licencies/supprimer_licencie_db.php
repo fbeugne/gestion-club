@@ -4,7 +4,7 @@ $code=htmlspecialchars($_GET['id']);
 
 
 
-include_once (WPINC . '/gestion-club/common.php');
+include_once (gestion_club_dir_path() . '/common.php');
 
 $gestion_saison = new GestionSaison();
 $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
