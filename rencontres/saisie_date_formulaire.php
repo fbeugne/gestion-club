@@ -140,7 +140,7 @@ Formulaire de gestion des dates
           <option value="Coupe" <?php  if ($type_filtre == "Coupe") echo "selected";?>>Coupe</option>
           <option value="Entrainement" <?php  if ($type_filtre == "Entrainement") echo "selected";?>>Entrainement</option>
           <option value="Amical" <?php  if ($type_filtre == "Amical") echo "selected";?>>Amical</option>
-          <option value="Galette" <?php  if ($type_filtre == "Galette") echo "selected";?>>Tournoi de la galette</option>
+          <option value="Tournoi" <?php  if ($type_filtre == "Tournoi") echo "selected";?>>Tournoi interne</option>
         </select>
       </form>
     </td>
@@ -200,7 +200,7 @@ Formulaire de gestion des dates
                 <option value="Coupe" <?php  if ($type == "Coupe") echo "selected";?>>Coupe</option>
                 <option value="Entrainement" <?php  if ($type == "Entrainement") echo "selected";?>>Entrainement</option>
                 <option value="Amical" <?php  if ($type == "Amical") echo "selected";?>>Amical</option>
-                <option value="Galette" <?php  if ($type == "Galette") echo "selected";?>>Tournoi de la galette</option>
+                <option value="Tournoi" <?php  if ($type == "Tournoi") echo "selected";?>>Tournoi interne</option>
               </select>
             </td>
           </tr>

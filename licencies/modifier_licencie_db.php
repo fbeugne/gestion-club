@@ -11,7 +11,6 @@ if ($code == "")
 //$code=htmlspecialchars($_POST['code']);
 $nom=strtoupper(htmlspecialchars($_POST['nom']));
 $prenom=htmlspecialchars($_POST['prenom']);
-$num_licence=htmlspecialchars($_POST['num_licence']);
 
 $date_naissance=htmlspecialchars($_POST['date_naissance']);
 
@@ -24,10 +23,6 @@ $portable=htmlspecialchars($_POST['portable']);
 
 
 include_once (WPINC . '/gestion-club/common.php');
-
-
-$gestion_saison = new GestionSaison();
-$saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
 
 
 $conn_db = new BaseDeDonnesPalet();
@@ -52,22 +47,6 @@ $conn_db->RequeteSQL($sql);
 
 $sql="UPDATE Licencies SET Prenom = '$prenom' WHERE Code='$code'";
 $conn_db->RequeteSQL($sql);
-
-$sql="UPDATE Licencies SET N_licence = '$num_licence' WHERE Code='$code'";
-$conn_db->RequeteSQL($sql);
-
-$sql = "select * from Licencies where Code = '$code'";
-$result_req = $conn_db->RequeteSQL($sql);
-$result_licencies=$result_req->fetch_array(MYSQLI_ASSOC);
-$result_req->free();
-
-if (  ($result_licencies[$saison_selectionnee] == "non")
-  ||  ($result_licencies[$saison_selectionnee] == null)
-  ||  (!isset($result_licencies[$saison_selectionnee])) )
-{
-  $sql="UPDATE Licencies SET `$saison_selectionnee` = 'OUI' WHERE Code='$code'";
-  $conn_db->RequeteSQL($sql);
-}
 
 $sql="INSERT IGNORE INTO `Naissance` SET `Code`='$code'";
 $conn_db->RequeteSQL($sql);

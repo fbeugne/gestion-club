@@ -2,19 +2,12 @@
 <?php
 
 $action=htmlspecialchars($_GET['action']);
-
 if ($action == "")
 {
   $action=htmlspecialchars($_POST['action']);
 }
-if ($action=="[modifier_db]")
-{
-  include_once (WPINC . '/gestion-club/licencies/modifier_licencie_db.php');
-}
-
 
 $id=htmlspecialchars($_GET['id']);
-
 if ($id == "")
 {
   $id=htmlspecialchars($_POST['id']);
@@ -25,30 +18,40 @@ include_once (WPINC . '/gestion-club/common.php');
 
 $conn_db = new BaseDeDonnesPalet();
 
-// Affichage d'une liste déroulante pour ajouter un licencié pour la saison courante
+?>
 
+<p>
+<form method="post" action="<?php echo get_permalink() ?>">
+Sélectionner un licencié : 
+<select name='id' id='id'>
+
+<?php
 $sql = "select Code, NOM, Prenom from Licencies ORDER BY `Licencies`.`NOM` ASC";
 $result_req = $conn_db->RequeteSQL($sql);
-
-echo "<p>";
-echo "<form method='post' action='" . get_permalink() . "'>";
-echo "Sélectionner un licencié existant à la saison : ";
-echo "<select name='id' id='id'>";
-
 while($info_licencies=$result_req->fetch_array(MYSQLI_ASSOC))
 {
-  echo "<option value='" . $info_licencies["Code"] . "'>";
-  echo $info_licencies['NOM'] . " " . $info_licencies['Prenom'] . "</option>";
+  if($info_licencies['Code'] == $id)
+  {
+    echo "<option value='" . $info_licencies["Code"] . "' selected>";
+  }
+  else
+  {
+    echo "<option value='" . $info_licencies["Code"] . "'>";
+  }
+  echo $info_licencies['NOM'] . " " . $info_licencies['Prenom'];
+  echo "</option>";
 }
+?>
 
-echo "</select>";
-echo "<br>";
-echo  "<input type='submit' value='OK'/>";
-echo "</form>";
+</select>
+<input type='submit' value='Sélectionner'/>
+<input type='submit' name='action' value='Ajouter' />
+<input type='submit' name='action' value='Supprimer' />
+</form>
+</p>
 
 
-echo "</p>";
-  
+<?php
 
 if ($id != "")
 {
@@ -67,9 +70,31 @@ if ($id != "")
   $result_naissance = $result_req->fetch_array(MYSQLI_ASSOC);
   $result_req->free();
   
-}
+  $gestion_saison = new GestionSaison();
+  $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
 
+  if ($action == 'Ajouter') 
+  {
+    $sql="UPDATE Licencies SET `$saison_selectionnee` = 'OUI' WHERE Code='$id'";
+    $conn_db->RequeteSQL($sql);
+  } 
+  else if ($action == 'Supprimer') 
+  {
+    $sql="UPDATE Licencies SET `$saison_selectionnee` = null WHERE Code='$id'";
+    $conn_db->RequeteSQL($sql);
+  }   
+  else if ($action=="[modifier_db]")
+  {
+    include_once (WPINC . '/gestion-club/licencies/modifier_licencie_db.php');
+  }
+  else 
+  {
+    //rien a faire
+  }
+}
 ?>
+
+
 <hr>
 <form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'[modifier_db]'),get_permalink()); ?>" method="post">
     <table>
@@ -81,9 +106,6 @@ if ($id != "")
         </tr>
         <tr>
             <td>Prénom : </td><td><input type="text" name="prenom" value="<?php echo $result_licencies['Prenom']; ?>"/></td>
-        </tr>
-        <tr>
-            <td>Numéro de licence : </td><td><input type="number" name="num_licence" value="<?php echo $result_licencies['N_licence']; ?>"/></td>
         </tr>
         <tr>
             <td>Date de naissance : </td><td><input type="date" name="date_naissance" value="<?php echo sprintf("%04d-%02d-%02d", $result_naissance['Année'], $result_naissance['Mois'], $result_naissance['Jour']); ?>" /></td>
@@ -107,7 +129,7 @@ if ($id != "")
             <td>Portable : </td><td><input type="tel" name="portable" value="<?php echo $result_adresse['Portable']; ?>" /></td>
         </tr>
         <tr>
-            <td><input type="submit" value="Ajouter ce licencié à la saison"/></td><td></td>
+            <td><input type="submit" value="Mettre à jour"/></td><td></td>
         </tr>
     </table>
 </form>
