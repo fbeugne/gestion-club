@@ -28,13 +28,12 @@ if ($classement == null)
       <td><input type='checkbox' name='match_entrainement' id='match_entrainement' value='1' <?php if ($match_entrainement) { echo " checked"; } ?>/> Entraînement</td>
     </tr>
     <tr>
-    </tr>   
-    
       <td><input type='submit' value='Tri du classement' formaction='<?php echo add_query_arg(array('action_affichage'=>'afficher_resultat'),get_permalink());?>' formmethod='post'> </td>
       <td><input type="radio" name="classement" id="classement" value="0" <?php  if ($classement == "0") echo "checked";?> > Alphabétique</td>
       <td><input type="radio" name="classement" id="classement" value="1" <?php  if ($classement == "1") echo "checked";?> > Points</td>
       <td><input type="radio" name="classement" id="classement" value="2" <?php  if ($classement == "2") echo "checked";?> > Assiduité</td>
       <td><input type="radio" name="classement" id="classement" value="3" <?php  if ($classement == "3") echo "checked";?> > Moyenne</td>
+    </tr>   
   </table>
 </form>
 

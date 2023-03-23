@@ -37,7 +37,7 @@ $bareme_13=array(
   "presence" => 40
 );
 
-$bareme_galette_gagne=array(
+$bareme_tournoi_gagne=array(
   0 => 1000,
   1 => 1001,
   2 => 1002,
@@ -55,7 +55,7 @@ $bareme_galette_gagne=array(
   "presence" => 500
 );
 
-$bareme_galette_perdu=array(
+$bareme_tournoi_perdu=array(
   0 => 0,
   1 => 1,
   2 => 2,
@@ -79,11 +79,11 @@ if ($type == "Coupe")
   $bareme_gagne = $bareme;
   $bareme_perdu = $bareme;
 }
-else if ($type == "Galette")
+else if ($type == "Tournoi")
 {
-  $bareme = $bareme_galette_gagne;
-  $bareme_gagne = $bareme_galette_gagne;
-  $bareme_perdu = $bareme_galette_perdu;
+  $bareme = $bareme_tournoi_gagne;
+  $bareme_gagne = $bareme_tournoi_gagne;
+  $bareme_perdu = $bareme_tournoi_perdu;
 }
 else
 {

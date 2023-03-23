@@ -9,37 +9,36 @@ Initialisation des variables liées au tye de match
 
 <?php
 
-  $title="Match";
 
   #quelques parametres de configuration
   if ($type == "Coupe")
   {
-    $title="$title de coupe";
+    $title="Match de coupe";
     $nb_partie = 6;
     $nb_point_max=13;
   }
   else if ($type == "Championnat")
   {
-    $title="$title de championnat";
+    $title="Match de championnat";
     $nb_partie = 6;
     $nb_point_max=11;
   }
   else if ($type == "Entrainement")
   {
-    $title="$title d'entrainement";
+    $title="Entrainement";
     $nb_partie = 4;
     $nb_point_max=11;
   }
   else if ($type == "Amical")
   {
-    $title="$title amical";
+    $title="Match amical";
     $nb_partie = 6;
     $nb_point_max=11;
   }
-  else if ($type == "Galette")
+  else if ($type == "Tournoi")
   {
-    $title="Tournoi de la galette";
-    $nb_partie = 4;
+    $title="Tournoi interne";
+    $nb_partie = 6;
     $nb_point_max=13;
   }
   else
@@ -108,7 +107,7 @@ Affichage du formulaire de saisie de resultats du match
 -->
 
 <?php 
-if ( ($type != "Entrainement") && ($type != "Galette"))
+if ( ($type != "Entrainement") && ($type != "Tournoi"))
 {
 ?>
   

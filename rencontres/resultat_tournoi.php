@@ -23,7 +23,7 @@ $DonneesAAfficher = array(
 
 
 $sql_from = "`Résultats` INNER JOIN `Dates` on `Dates`.Date=`Résultats`.Date 
-and ( (Dates.`Type` = 'Galette') and Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') 
+and ( (Dates.`Type` = 'Tournoi') and Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') 
 RIGHT JOIN `Licencies` on `Résultats`.Code=`Licencies`.Code
 WHERE `Licencies`.`$saison_selectionnee` is not null and `Licencies`.`$saison_selectionnee` != 'non'
 GROUP BY `Licencies`.Code 
