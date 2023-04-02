@@ -9,8 +9,8 @@ $conn_db = new BaseDeDonnesPalet();
 $gestion_saison = new GestionSaison();
 $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
 
-$annee1 = $gestion_saison->GetAnneeSelectionneePrecedente();
-$annee2 = $gestion_saison->GetAnneeSelectionnee();
+$annee1 = $gestion_saison->GetAnnee1Selectionnee();
+$annee2 = $gestion_saison->GetAnnee2Selectionnee();
 
 $DonneesAAfficher = array(
   "Date" => array("Date"),

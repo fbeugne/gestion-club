@@ -1,41 +1,60 @@
 <?php
+
 /**************************************************************/
 /* Classe de Gestion de la saison selectionnee                */
 /**************************************************************/
 class GestionSaison
 {
-  protected $annee_courante;
-  protected $annee_precedente;
+  protected $annee_1;
+  protected $annee_2;
   protected $saison_courante;
+  protected $conn_db;
   
   public function __construct()
   {
-    @session_start();
+    $this->$conn_db = new BaseDeDonnesPalet();
+
+    $this->annee_2 = $this->GetAnneeEnCours();
+    $this->annee_1 = $this->annee_2 - 1;
+    $this->saison_courante = "$this->annee_1/$this->annee_2";
+      
     $this->UpdateDonneesSaisonSelectionnee();
-    setcookie('saison', $this->saison_courante); 
   }
   
   protected function UpdateDonneesSaisonSelectionnee()
   {
+    $sql = "SELECT `annee` FROM `saison` WHERE `selected` = 1";
+    $result = $this->$conn_db->RequeteSQL($sql); 
+    
     // On fixe une variable globale $saison_courante qui sera utilisée pour les requetes sql
-    if (isset($_COOKIE['saison']))
+    if ( ($result) && ($info_saison = $result->fetch_row()) )
     {
-      $this->saison_courante = $_COOKIE['saison'];
-      $this->annee_precedente = intval(strtok($this->saison_courante, '/'));
-      $this->annee_courante = intval(strtok('/'));
+      $this->annee_1 = $info_saison[0];
+      $this->annee_2 = $info_saison[0] + 1;
+      $this->saison_courante = "$this->annee_1/$this->annee_2";
     }
     else
     {
-      $this->annee_courante = $this->GetAnneeEnCours();
-      $this->annee_precedente = $this->annee_courante - 1;
-      $this->saison_courante = "$this->annee_precedente/$this->annee_courante";
+      $this->annee_2 = $this->GetAnneeEnCours();
+      $this->annee_1 = $this->annee_2 - 1;
+      $this->saison_courante = "$this->annee_1/$this->annee_2";
     }
     return $this->saison_courante;
   }
 
   function SetSaisonSelectionnee($saison)
   {
-    setcookie('saison', $saison); 
+    # deselectionne toutes les saisons
+    $sql = "UPDATE `saison` SET `selected` = '0'";
+    $this->$conn_db->RequeteSQL($sql); 
+    
+    # selection la bonne saison
+    
+    $saison_selectionnee = intval(strtok($saison, '/'));
+      
+    $sql = "UPDATE `saison` SET `selected` = '1' WHERE `saison`.`annee` = $saison_selectionnee";
+    $this->$conn_db->RequeteSQL($sql); 
+    
     $this->UpdateDonneesSaisonSelectionnee();
     
   }
@@ -52,27 +71,19 @@ class GestionSaison
     return $annee;
   }
   
-  function GetSaisonEnCours()
-  {
-    $annee = GetAnneeEnCours();
-    
-    $annee_prec = $annee - 1;
-    return "$annee_prec/$annee";
-  }
-  
   function GetSaisonSelectionnee()
   {
     return $this->saison_courante;
   }
   
-  function GetAnneeSelectionnee()
+  function GetAnnee1Selectionnee()
   {
-    return $this->annee_courante;
+    return $this->annee_1;
   }
   
-  function GetAnneeSelectionneePrecedente()
+  function GetAnnee2Selectionnee()
   {
-    return $this->annee_precedente;
+    return $this->annee_2;
   }
 }
 ?>

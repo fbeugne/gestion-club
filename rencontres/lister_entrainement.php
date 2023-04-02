@@ -7,8 +7,8 @@ include_once (gestion_club_dir_path() . '/common.php');
 $conn_db = new BaseDeDonnesPalet();
 
 $gestion_saison = new GestionSaison();
-$annee1 = $gestion_saison->GetAnneeSelectionneePrecedente();
-$annee2 = $gestion_saison->GetAnneeSelectionnee();
+$annee1 = $gestion_saison->GetAnnee1Selectionnee();
+$annee2 = $gestion_saison->GetAnnee2Selectionnee();
 
 $DonneesAAfficher = array(
   "Date" => array("Date"),
