@@ -47,4 +47,8 @@ function afficher_formulaire_rencontres()
     include (gestion_club_dir_path() . '/rencontres/formulaire_rencontres.php');
 }
 
+
+include_once (gestion_club_dir_path() . '/bdpalet/class-config-bdpalet.php');
+$config_bd = new ConfigBaseDeDonnesPalet();
+$config_bd->init_config_bdpalet();
 ?>
