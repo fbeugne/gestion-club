@@ -4,11 +4,13 @@
 class  ConfigBaseDeDonnesPalet
 {
   protected $option_servername='bdpalet_servername';
+  protected $option_port='bdpalet_port';
   protected $option_dbname='bdpalet_dbname';
   protected $option_username='bdpalet_username';
   protected $option_password='bdpalet_password';
 
   protected $default_servername = 'localhost';
+  protected $default_port = '3306';
   protected $default_dbname = 'bdpalet';
   protected $default_username = 'root';
   protected $default_password = 'root';
@@ -16,6 +18,10 @@ class  ConfigBaseDeDonnesPalet
   function config_bdpalet_get_servername()
   {
     return get_option($this->option_servername, $this->default_servername);
+  }
+  function config_bdpalet_get_port()
+  {
+    return intval(get_option($this->option_port, $this->default_port));
   }
   function config_bdpalet_get_dbname()
   {
@@ -40,6 +46,7 @@ class  ConfigBaseDeDonnesPalet
   function bdpalet_register_settings() 
   { 
     register_setting('bdpalet_options_group', $this->option_servername); 
+    register_setting('bdpalet_options_group', $this->option_port); 
     register_setting('bdpalet_options_group', $this->option_dbname); 
     register_setting('bdpalet_options_group', $this->option_username); 
     register_setting('bdpalet_options_group', $this->option_password); 
@@ -62,6 +69,13 @@ class  ConfigBaseDeDonnesPalet
     <th><label for="first_field_id">Nom du serveur :</label></th>
     <td>
     <input type = 'text' class="regular-text" id="first_field_id" name="<?php echo $this->option_servername; ?>" value="<?php echo $this->config_bdpalet_get_servername(); ?>">
+    </td>
+    </tr>
+
+    <tr>
+    <th><label for="second_field_id">Port :</label></th>
+    <td>
+    <input type = 'text' class="regular-text" id="second_field_id" name="<?php echo $this->option_port; ?>" value="<?php echo $this->config_bdpalet_get_port(); ?>">
     </td>
     </tr>
 

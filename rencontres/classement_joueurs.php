@@ -65,37 +65,37 @@ $Filtre_SQL="FALSE";
 $Tri_SQL="";
 if ($match_amical)
 {
-  $Filtre_SQL=$Filtre_SQL . " OR Dates.`Type` = 'Amical'";
+  $Filtre_SQL=$Filtre_SQL . " OR dates.`Type` = 'Amical'";
 }
 if ($match_champ)
 {
-  $Filtre_SQL=$Filtre_SQL . " OR Dates.`Type` = 'Championnat'";
+  $Filtre_SQL=$Filtre_SQL . " OR dates.`Type` = 'Championnat'";
 }
 if ($match_coupe)
 {
-  $Filtre_SQL=$Filtre_SQL . " OR Dates.`Type` = 'Coupe'";
+  $Filtre_SQL=$Filtre_SQL . " OR dates.`Type` = 'Coupe'";
 }
 if ($match_entrainement)
 {
-  $Filtre_SQL=$Filtre_SQL . " OR Dates.`Type` = 'Entrainement'";
+  $Filtre_SQL=$Filtre_SQL . " OR dates.`Type` = 'Entrainement'";
 }
 
 
 if ($classement == "0")
 {
-  $Tri_SQL="`Licencies`.NOM ASC, `Licencies`.Prenom ASC";
+  $Tri_SQL="`licencies`.NOM ASC, `licencies`.Prenom ASC";
 }
 if ($classement == "1")
 {
-  $Tri_SQL="points DESC, assiduite DESC, `Licencies`.NOM ASC, `Licencies`.Prenom ASC";
+  $Tri_SQL="points DESC, assiduite DESC, `licencies`.NOM ASC, `licencies`.Prenom ASC";
 }
 if ($classement == "2")
 {
-  $Tri_SQL="assiduite DESC, points DESC, `Licencies`.NOM ASC, `Licencies`.Prenom ASC";
+  $Tri_SQL="assiduite DESC, points DESC, `licencies`.NOM ASC, `licencies`.Prenom ASC";
 }
 if ($classement == "3")
 {
-  $Tri_SQL="moyenne DESC, assiduite DESC, points DESC, `Licencies`.NOM ASC, `Licencies`.Prenom ASC";
+  $Tri_SQL="moyenne DESC, assiduite DESC, points DESC, `licencies`.NOM ASC, `licencies`.Prenom ASC";
 }
 
 if ($action_affichage == "afficher_resultat")

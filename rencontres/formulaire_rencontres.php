@@ -1,9 +1,12 @@
 
 <?php
 
-  $action=htmlspecialchars($_GET['action']);
+  if (array_key_exists('action', $_GET))
+  {
+    $action=htmlspecialchars($_GET['action']);
+  }
   
-  include (WP_PLUGIN_DIR . '/gestion-club/rencontres/saisie_date_formulaire.php');
+  include (gestion_club_dir_path() . '/rencontres/saisie_date_formulaire.php');
   
   echo "<hr>";
   

@@ -12,7 +12,7 @@ class GestionSaison
   
   public function __construct()
   {
-    $this->$conn_db = new BaseDeDonnesPalet();
+    $this->conn_db = new BaseDeDonnesPalet();
 
     $this->annee_2 = $this->GetAnneeEnCours();
     $this->annee_1 = $this->annee_2 - 1;
@@ -24,7 +24,7 @@ class GestionSaison
   protected function UpdateDonneesSaisonSelectionnee()
   {
     $sql = "SELECT `annee` FROM `saison` WHERE `selected` = 1";
-    $result = $this->$conn_db->RequeteSQL($sql); 
+    $result = $this->conn_db->RequeteSQL($sql); 
     
     // On fixe une variable globale $saison_courante qui sera utilisée pour les requetes sql
     if ( ($result) && ($info_saison = $result->fetch_row()) )
@@ -46,14 +46,14 @@ class GestionSaison
   {
     # deselectionne toutes les saisons
     $sql = "UPDATE `saison` SET `selected` = '0'";
-    $this->$conn_db->RequeteSQL($sql); 
+    $this->conn_db->RequeteSQL($sql); 
     
     # selection la bonne saison
     
     $saison_selectionnee = intval(strtok($saison, '/'));
       
     $sql = "UPDATE `saison` SET `selected` = '1' WHERE `saison`.`annee` = $saison_selectionnee";
-    $this->$conn_db->RequeteSQL($sql); 
+    $this->conn_db->RequeteSQL($sql); 
     
     $this->UpdateDonneesSaisonSelectionnee();
     

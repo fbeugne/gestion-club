@@ -23,7 +23,7 @@ $conn_db = new BaseDeDonnesPalet();
 echo "<table>";
 foreach ($ListeRole as $role)
 {
-  $sql = "select NOM, Prenom from Licencies where (Licencies.`$saison_selectionnee` = '$role') ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
+  $sql = "select NOM, Prenom from licencies where (licencies.`$saison_selectionnee` = '$role') ORDER BY `licencies`.`NOM` ASC, `licencies`.Prenom ASC";
   
   $result = $conn_db->RequeteSQL($sql); 
   
@@ -50,7 +50,7 @@ foreach ($ListeRole as $role)
 }
 
 // Listing des membres du bureau
-$sql = "select NOM, Prenom from Licencies where (Licencies.`$saison_selectionnee` = 'Bureau') ORDER BY `Licencies`.`NOM` ASC";
+$sql = "select NOM, Prenom from licencies where (licencies.`$saison_selectionnee` = 'Bureau') ORDER BY `licencies`.`NOM` ASC";
 
 $result = $conn_db->RequeteSQL($sql); 
 

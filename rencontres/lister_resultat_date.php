@@ -28,8 +28,8 @@ Action lié au formualaire
 	$annee1 = $gestion_saison->GetAnnee1Selectionnee();
 	$annee2 = $gestion_saison->GetAnnee2Selectionnee();
   
-  $sql = "select Date, Lieu, Type from Dates
-   where (Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') ORDER BY Dates.`Date` ASC";
+  $sql = "select Date, Lieu, Type from dates
+   where (dates.`Date` > '$annee1-08-01' and dates.`Date` < '$annee2-08-01') ORDER BY dates.`Date` ASC";
   
   $liste_date = $conn_db->RequeteSQL($sql);
   
@@ -75,8 +75,8 @@ include (gestion_club_dir_path() . '/rencontres/lib_classement.php');
 
 if ($date != "")
 {
-  $Filtre_SQL="Dates.`Date` = '$date'";
-  $Tri_SQL="points DESC, assiduite DESC, `Licencies`.NOM ASC, `Licencies`.Prenom ASC";
+  $Filtre_SQL="dates.`Date` = '$date'";
+  $Tri_SQL="points DESC, assiduite DESC, `licencies`.NOM ASC, `licencies`.Prenom ASC";
 
   AffichierClassementMatch($Filtre_SQL);
 }

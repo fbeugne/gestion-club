@@ -16,8 +16,8 @@ $DonneesAAfficher = array(
 );
 
 
-$sql_from = "Licencies inner join Adresse on Licencies.Code=Adresse.Code
- where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
+$sql_from = "licencies inner join adresse on licencies.Code=adresse.Code
+ where (licencies.`$saison_selectionnee` !='non' and licencies.`$saison_selectionnee` is not null) ORDER BY `licencies`.`NOM` ASC, `licencies`.Prenom ASC";
 
 $conn_db->AfficherTable($DonneesAAfficher, $sql_from);
 

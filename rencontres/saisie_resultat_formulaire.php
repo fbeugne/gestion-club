@@ -55,12 +55,12 @@ Initialisation des variables liées au tye de match
   
   $conn_db = new BaseDeDonnesPalet();
   
-  $sql = "select Code, NOM, Prenom from Licencies
-   where (Licencies.`$saison_selectionnee` !='non' and Licencies.`$saison_selectionnee` is not null) ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
+  $sql = "select Code, NOM, Prenom from licencies
+   where (licencies.`$saison_selectionnee` !='non' and licencies.`$saison_selectionnee` is not null) ORDER BY `licencies`.`NOM` ASC, `licencies`.Prenom ASC";
   
   $liste_licencies_req = $conn_db->RequeteSQL($sql);
   
-  $sql = "select nb_joueurs, nb_adversaires, points_pour, points_contre from  `Dates` where (Dates.Date = '$date')";
+  $sql = "select nb_joueurs, nb_adversaires, points_pour, points_contre from  `dates` where (dates.Date = '$date')";
   
   $resultats_match = $conn_db->RequeteSQL($sql);
   $points_contre=0;
@@ -174,8 +174,8 @@ Affichage du formulaire de saisie de resultats de chaque licencié
 		  $prenom = $row['Prenom'];
 		  
       $sql = "select pour_1, contre_1, pour_2, contre_2, pour_3, contre_3,
-       pour_4, contre_4, pour_5, contre_5, pour_6, contre_6 from `Résultats`
-       where (`Résultats`.`Date` ='$date' and `Résultats`.`Code` = '$code')";
+       pour_4, contre_4, pour_5, contre_5, pour_6, contre_6 from `resultats`
+       where (`resultats`.`Date` ='$date' and `resultats`.`Code` = '$code')";
       
     
       $res_db = $conn_db->RequeteSQL($sql);

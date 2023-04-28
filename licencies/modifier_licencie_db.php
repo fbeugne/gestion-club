@@ -39,49 +39,49 @@ if ($code == "")
   echo "Le trigramme est $code <br>";
 }
 
-$sql="INSERT IGNORE INTO `Licencies` SET `Code`='$code'";
+$sql="INSERT IGNORE INTO `licencies` SET `Code`='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE `Licencies` SET `NOM` = '$nom' WHERE `Code`='$code'";
+$sql="UPDATE `licencies` SET `NOM` = '$nom' WHERE `Code`='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE Licencies SET Prenom = '$prenom' WHERE Code='$code'";
+$sql="UPDATE licencies SET Prenom = '$prenom' WHERE Code='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="INSERT IGNORE INTO `Naissance` SET `Code`='$code'";
+$sql="INSERT IGNORE INTO `naissance` SET `Code`='$code'";
 $conn_db->RequeteSQL($sql);
 
 sscanf($date_naissance,"%04d-%02d-%02d",$annee,$mois,$jour);
 
-$sql="UPDATE `Naissance` SET `Année` = '$annee' WHERE `Code`='$code'";
+$sql="UPDATE `naissance` SET `Annee` = '$annee' WHERE `Code`='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE `Naissance` SET `Mois` = '$mois' WHERE `Code`='$code'";
+$sql="UPDATE `naissance` SET `Mois` = '$mois' WHERE `Code`='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE `Naissance` SET `Jour` = '$jour' WHERE `Code`='$code'";
+$sql="UPDATE `naissance` SET `Jour` = '$jour' WHERE `Code`='$code'";
 $conn_db->RequeteSQL($sql);
 
 
-$sql="INSERT IGNORE INTO `Adresse` SET `Code`='$code'";
+$sql="INSERT IGNORE INTO `adresse` SET `Code`='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE `Adresse` SET `Rue` = '$rue' WHERE `Code`='$code'";
+$sql="UPDATE `adresse` SET `Rue` = '$rue' WHERE `Code`='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE Adresse SET CPostal = '$CPostal' WHERE Code='$code'";
+$sql="UPDATE adresse SET CPostal = '$CPostal' WHERE Code='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE Adresse SET Ville = '$ville' WHERE Code='$code'";
+$sql="UPDATE adresse SET Ville = '$ville' WHERE Code='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE Adresse SET email = '$email' WHERE Code='$code'";
+$sql="UPDATE adresse SET email = '$email' WHERE Code='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE Adresse SET Fixe = '$fixe' WHERE Code='$code'";
+$sql="UPDATE adresse SET Fixe = '$fixe' WHERE Code='$code'";
 $conn_db->RequeteSQL($sql);
 
-$sql="UPDATE Adresse SET Portable = '$portable' WHERE Code='$code'";
+$sql="UPDATE adresse SET Portable = '$portable' WHERE Code='$code'";
 $conn_db->RequeteSQL($sql);
 
 

@@ -1,16 +1,30 @@
 
 <?php
 
-$action=htmlspecialchars($_GET['action']);
-if ($action == "")
+if (array_key_exists('action', $_GET))
+{
+  $action=htmlspecialchars($_GET['action']);
+}
+else if (array_key_exists('action', $_POST))
 {
   $action=htmlspecialchars($_POST['action']);
 }
+else
+{
+  $action="";
+}
 
-$id=htmlspecialchars($_GET['id']);
-if ($id == "")
+if (array_key_exists('id', $_GET))
+{
+  $id=htmlspecialchars($_GET['id']);
+}
+else if (array_key_exists('id', $_POST))
 {
   $id=htmlspecialchars($_POST['id']);
+}
+else
+{
+  $id="";
 }
 
 include_once (gestion_club_dir_path() . '/common.php');
@@ -26,7 +40,7 @@ Sélectionner un licencié :
 <select name='id' id='id'>
 
 <?php
-$sql = "select Code, NOM, Prenom from Licencies ORDER BY `Licencies`.`NOM` ASC";
+$sql = "select Code, NOM, Prenom from licencies ORDER BY `licencies`.`NOM` ASC";
 $result_req = $conn_db->RequeteSQL($sql);
 while($info_licencies=$result_req->fetch_array(MYSQLI_ASSOC))
 {
@@ -55,32 +69,17 @@ while($info_licencies=$result_req->fetch_array(MYSQLI_ASSOC))
 
 if ($id != "")
 {
-  $sql = "select * from Licencies where Code = '$id'";
-  $result_req = $conn_db->RequeteSQL($sql);
-  $result_licencies=$result_req->fetch_array(MYSQLI_ASSOC);
-  $result_req->free();
-  
-  $sql = "select * from Adresse where Code = '$id'";
-  $result_req = $conn_db->RequeteSQL($sql);
-  $result_adresse = $result_req->fetch_array(MYSQLI_ASSOC);
-  $result_req->free();
-  
-  $sql = "select * from Naissance where Code = '$id'";
-  $result_req = $conn_db->RequeteSQL($sql);
-  $result_naissance = $result_req->fetch_array(MYSQLI_ASSOC);
-  $result_req->free();
-  
   $gestion_saison = new GestionSaison();
   $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
 
   if ($action == 'Ajouter') 
   {
-    $sql="UPDATE Licencies SET `$saison_selectionnee` = 'OUI' WHERE Code='$id'";
+    $sql="UPDATE licencies SET `$saison_selectionnee` = 'OUI' WHERE Code='$id'";
     $conn_db->RequeteSQL($sql);
   } 
   else if ($action == 'Supprimer') 
   {
-    $sql="UPDATE Licencies SET `$saison_selectionnee` = null WHERE Code='$id'";
+    $sql="UPDATE licencies SET `$saison_selectionnee` = null WHERE Code='$id'";
     $conn_db->RequeteSQL($sql);
   }   
   else if ($action=="[modifier_db]")
@@ -95,6 +94,27 @@ if ($id != "")
 ?>
 
 
+<?php
+if ($id != "")
+{
+  
+  $sql = "select * from licencies where Code = '$id'";
+  $result_req = $conn_db->RequeteSQL($sql);
+  $result_licencies=$result_req->fetch_array(MYSQLI_ASSOC);
+  $result_req->free();
+  
+  $sql = "select * from adresse where Code = '$id'";
+  $result_req = $conn_db->RequeteSQL($sql);
+  $result_adresse = $result_req->fetch_array(MYSQLI_ASSOC);
+  $result_req->free();
+  
+  $sql = "select * from naissance where Code = '$id'";
+  $result_req = $conn_db->RequeteSQL($sql);
+  $result_naissance = $result_req->fetch_array(MYSQLI_ASSOC);
+  $result_req->free();
+  
+?>
+
 <hr>
 <form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'[modifier_db]'),get_permalink()); ?>" method="post">
     <table>
@@ -108,7 +128,7 @@ if ($id != "")
             <td>Prénom : </td><td><input type="text" name="prenom" value="<?php echo $result_licencies['Prenom']; ?>"/></td>
         </tr>
         <tr>
-            <td>Date de naissance : </td><td><input type="date" name="date_naissance" value="<?php echo sprintf("%04d-%02d-%02d", $result_naissance['Année'], $result_naissance['Mois'], $result_naissance['Jour']); ?>" /></td>
+            <td>Date de naissance : </td><td><input type="date" name="date_naissance" value="<?php echo sprintf("%04d-%02d-%02d", $result_naissance['Annee'], $result_naissance['Mois'], $result_naissance['Jour']); ?>" /></td>
         </tr>
         <tr>
             <td>Rue : </td><td><input type="text" name="rue" value="<?php echo $result_adresse['Rue']; ?>" /></td>
@@ -133,3 +153,8 @@ if ($id != "")
         </tr>
     </table>
 </form>
+
+
+<?php
+}
+?>

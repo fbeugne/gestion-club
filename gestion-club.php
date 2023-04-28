@@ -25,6 +25,10 @@ function afficher_bureau()
     include (gestion_club_dir_path() . '/licencies/lister_bureau.php');
 }
 
+function afficher_anniversaire()
+{
+    include (gestion_club_dir_path() . '/licencies/lister_licencies_anniversaire.php');
+}
 
 function afficher_rencontres()
 {

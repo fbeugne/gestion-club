@@ -12,27 +12,26 @@ class BaseDeDonnesPalet
   
   protected $conn_db;
   protected $saison_selectionnee; 
-  protected $servername;
-  protected $dbname;
-  protected $username;
-  protected $password;
   
 	// Connexion à la base de donnees
   public function __construct()
   {
     $config_bd = new ConfigBaseDeDonnesPalet();
-    $this->servername = $config_bd->config_bdpalet_get_servername();
-    $this->dbname = $config_bd->config_bdpalet_get_dbname();
-    $this->username = $config_bd->config_bdpalet_get_username();
-    $this->password = $config_bd->config_bdpalet_get_password();
+    $servername = $config_bd->config_bdpalet_get_servername();
+    $port = $config_bd->config_bdpalet_get_port();
+    $dbname = $config_bd->config_bdpalet_get_dbname();
+    $username = $config_bd->config_bdpalet_get_username();
+    $password = $config_bd->config_bdpalet_get_password();
     
     // Create connection
-    $this->conn_db = new mysqli( $this->servername, $this->username, $this->password, $this->dbname );
+    $this->conn_db = new mysqli( $servername, $username, $password, $dbname, $port );
 
     // Check connection
     if ($this->conn_db->connect_error) {
-      die("Connection failed: " . $this->$conn_db->connect_error);
+      die("Connection failed: " . $this->conn_db->connect_error);
     }
+    $this->conn_db->query("SET NAMES utf8 COLLATE utf8_unicode_ci");
+
   }
 
 
@@ -44,7 +43,12 @@ class BaseDeDonnesPalet
 
   public function RequeteSQL($sql_req)
   {
-    return $this->conn_db->query($sql_req);
+    $result = $this->conn_db->query($sql_req);
+    if ($result == false)
+    {
+      die("Erreur " . $this->conn_db->error . "sur la requete : " . $sql_req);
+    }
+    return $result;
   }
   
   public function AfficherTable ( $table_description, $sql_fromreq)
@@ -55,7 +59,7 @@ class BaseDeDonnesPalet
     {
       foreach ($colonne as $champ)
       {
-        if (($champ[0]!= ' ') && ($champ != 'num_ligne'))
+        if (($champ[0] != ' ') && ($champ != 'num_ligne'))
         {
           if ($liste_champs != "")
           {
@@ -74,8 +78,6 @@ class BaseDeDonnesPalet
 
     $sql = "select $liste_champs from $sql_fromreq";
 
-    $result = $this->RequeteSQL($sql);
-
     $num_ligne=0;
     echo "<table>";
     // printing table headers
@@ -85,6 +87,8 @@ class BaseDeDonnesPalet
       echo "<th>   " . key($table_description) . "</th>";
       next($table_description);
     }
+
+    $result = $this->RequeteSQL($sql);
 
     while($array_res = $result->fetch_row())
     {
@@ -107,20 +111,12 @@ class BaseDeDonnesPalet
             echo "$num_ligne";
           }
           else
-          {        
-            // indique une action a effectuer
-            if (key($table_description)[0] == '[')
-            {
-              echo "<a href=" . add_query_arg(array('id'=>$array_res[$indice],'action'=>key($table_description)),get_permalink()) . ">". key($table_description) ."</a>";
-            }
-            // sinon on affiche le resultat de la requete sql
-            else
-            {
-              echo $array_res[$indice];
-            }
+          {
+            // on affiche le resultat de la requete sql
+            echo $array_res[$indice];
             $indice=$indice+1; 
           }
-        } 
+        }
         echo "</td>";
 
         next($table_description);        
@@ -164,7 +160,7 @@ class BaseDeDonnesPalet
       while (($index_nom < strlen($arg_nom)) && ($tri_existe == true))
       {
         $ret_code[2] = strtoupper($arg_nom)[$index_nom];
-        $req = $this->conn_db->RequeteSQL("SELECT Code FROM Licencies WHERE Code = '" . $ret_code . "'");
+        $req = $this->RequeteSQL("SELECT Code FROM Licencies WHERE Code = '" . $ret_code . "'");
         
         if (($req == false) || ($req->num_rows == 0)) {
           $tri_existe = false;

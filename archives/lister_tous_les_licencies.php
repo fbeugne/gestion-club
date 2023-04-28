@@ -18,16 +18,16 @@ $end=$gestion_saison->GetAnneeEnCours();
 
 $modulo_annee=10;
 
-$sql_from = "Licencies WHERE FALSE";
+$sql_from = "licencies WHERE FALSE";
 
 for ($annee=$end-1; $annee>=$start; $annee--)
 {
   $annee_sup = $annee + 1;
   $Title=substr("$annee", -2) . "-" . substr("$annee_sup", -2);
 
-  $sql_from = "$sql_from OR (Licencies.`$annee/$annee_sup` is not null AND Licencies.`$annee/$annee_sup` != 'non')";
+  $sql_from = "$sql_from OR (licencies.`$annee/$annee_sup` is not null AND licencies.`$annee/$annee_sup` != 'non')";
   
-  $desc="IFNULL(Licencies.`$annee/$annee_sup`,'')";
+  $desc="IFNULL(licencies.`$annee/$annee_sup`,'')";
   $desc="REPLACE($desc, 'non', '')";
   $desc="REPLACE($desc, 'OUI', 'X')";
   $desc="REPLACE($desc, 'Bureau', 'M')";
@@ -44,7 +44,7 @@ for ($annee=$end-1; $annee>=$start; $annee--)
   if (((($end - $annee ) % $modulo_annee) == 0)
     || ($annee == $start))
   {
-    $sql_from = "$sql_from ORDER BY `Licencies`.`NOM` ASC, `Licencies`.Prenom ASC";
+    $sql_from = "$sql_from ORDER BY `licencies`.`NOM` ASC, `licencies`.Prenom ASC";
     
     $conn_db->AfficherTable($DonneesAAfficher, $sql_from);
     
@@ -52,7 +52,7 @@ for ($annee=$end-1; $annee>=$start; $annee--)
       "NOM" => array("NOM"),
       "Prénom" => array("Prenom")
     );
-    $sql_from = "Licencies WHERE FALSE";
+    $sql_from = "licencies WHERE FALSE";
     
     echo "<h1 style='page-break-before:always'></h1>";
 

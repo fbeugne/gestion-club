@@ -20,7 +20,7 @@ echo "<br>";
 echo "<br>";
 
 
-$sql_from = "Dates where ( (Dates.`Type` = 'Entrainement') and Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') ORDER BY Dates.`Date` ASC";
+$sql_from = "dates where ( (dates.`Type` = 'Entrainement') and dates.`Date` > '$annee1-08-01' and dates.`Date` < '$annee2-08-01') ORDER BY dates.`Date` ASC";
 
 $conn_db->AfficherTable($DonneesAAfficher, $sql_from);
 

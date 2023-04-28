@@ -111,8 +111,8 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
   $present=htmlspecialchars($_POST['presence_'.$code]);
 
   //recuperer l'id lié au resultat
-  $sql="select Id from `Résultats`
-    where (`Résultats`.`Date` ='" . $date . "' and `Résultats`.`Code` = '" . $code . "')";
+  $sql="select Id from `resultats`
+    where (`resultats`.`Date` ='" . $date . "' and `resultats`.`Code` = '" . $code . "')";
   $res_id=$conn_db->RequeteSQL($sql);
      
   if ($present==1)
@@ -121,7 +121,7 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
     $total=$bareme["presence"];
     if (($res_id == false)  || ($res_id->num_rows==0))
     {
-      $sql_insert="INSERT INTO `Résultats` (`Date`, `Code`) VALUES('" . $date . "', '" . $code . "')";
+      $sql_insert="INSERT INTO `resultats` (`Date`, `Code`) VALUES('" . $date . "', '" . $code . "')";
       
       $conn_db->RequeteSQL($sql_insert);
       
@@ -147,15 +147,15 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
       {
         $total = $total + $bareme_gagne[$gagne] - $bareme_perdu[$perdu];
         $id_partie=$num_partie+1;
-        $sql = "update `Résultats` set `pour_$id_partie` = '$gagne' where `Id` = '$id'";
+        $sql = "update `resultats` set `pour_$id_partie` = '$gagne' where `Id` = '$id'";
         $conn_db->RequeteSQL($sql);
-        $sql = "update `Résultats` set `contre_$id_partie` = '$perdu' where `Id` = '$id'";
+        $sql = "update `resultats` set `contre_$id_partie` = '$perdu' where `Id` = '$id'";
         $conn_db->RequeteSQL($sql);
       }
     }
     
     //Enregistrement du score du match
-    $sql = "update `Résultats` set `Résultat` = '$total' where `Id` = '$id'";
+    $sql = "update `resultats` set `Resultat` = '$total' where `Id` = '$id'";
     $conn_db->RequeteSQL($sql);
     
     echo "<br>";
@@ -164,7 +164,7 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
   else if (($res_id) && ($res_id->num_rows>0))
   {
     $id = $res_id->fetch_array(MYSQLI_ASSOC)['Id'];
-    $sql = "DELETE FROM `Résultats` WHERE `Résultats`.`Id` = '$id'";
+    $sql = "DELETE FROM `resultats` WHERE `resultats`.`Id` = '$id'";
     $conn_db->RequeteSQL($sql);
   }
 }
@@ -174,7 +174,7 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
 // Il n'y a pas de formulaire pour saisir cette donnees. Elle est deduite a partir du formulaire des resultats individuel
 if ($type == "Entrainement")
 {
-  $sql = "update `Dates` set `nb_joueurs` = '$nb_joueurs' where `Date` = '$date'";
+  $sql = "update `dates` set `nb_joueurs` = '$nb_joueurs' where `Date` = '$date'";
   $conn_db->RequeteSQL($sql); 
 }
 

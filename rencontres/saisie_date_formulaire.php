@@ -13,8 +13,14 @@ Action lié au formualaire
 
   //selection de la date pour saisir les résultats
 
-  $type=htmlspecialchars($_POST['type']);
-  $action=htmlspecialchars($_GET['action']);
+  if (array_key_exists('type', $_POST))
+  {
+    $type=htmlspecialchars($_POST['type']);
+  }
+  if (array_key_exists('action', $_GET))
+  {
+    $action=htmlspecialchars($_GET['action']);
+  }
   
   if (isset($_POST["type_filtre"]))
   {
@@ -49,15 +55,15 @@ Action lié au formualaire
     $dpct = htmlspecialchars($_POST['dpct']);
     
     
-    $sql="INSERT IGNORE INTO `Dates` SET `Date`='$date'";
+    $sql="INSERT IGNORE INTO `dates` SET `Date`='$date'";
     $conn_db->RequeteSQL($sql);
 
     
-    $sql = "update `Dates` set `Type` = '$type' where `Date` = '$date'";
+    $sql = "update `dates` set `Type` = '$type' where `Date` = '$date'";
     $conn_db->RequeteSQL($sql);
-    $sql = "update `Dates` set `Lieu` = '$lieu' where `Date` = '$date'";
+    $sql = "update `dates` set `Lieu` = '$lieu' where `Date` = '$date'";
     $conn_db->RequeteSQL($sql);
-    $sql = "update `Dates` set `Dpct` = '$dpct' where `Date` = '$date'";
+    $sql = "update `dates` set `Dpct` = '$dpct' where `Date` = '$date'";
     $conn_db->RequeteSQL($sql);
     
   }
@@ -65,9 +71,9 @@ Action lié au formualaire
   else if ($action == "delete_date_db" )
   {
     $date = htmlspecialchars($_POST['date']);
-    $sql = "delete from `Dates` where `Date` = '$date'";
+    $sql = "delete from `dates` where `Date` = '$date'";
     $conn_db->RequeteSQL($sql);
-    $sql = "delete from `Résultats` where `Date` = '$date'";
+    $sql = "delete from `resultats` where `Date` = '$date'";
     $conn_db->RequeteSQL($sql);
     $date="";
   }
@@ -82,7 +88,7 @@ Action lié au formualaire
     
     if ($date != "")
     {
-      $sql = "select * from `Dates` where `Date`='$date'";
+      $sql = "select * from `dates` where `Date`='$date'";
       $res = $conn_db->RequeteSQL($sql);
       
       if ($res)
@@ -105,13 +111,13 @@ Action lié au formualaire
   
   if ($type_filtre == "")
   {
-    $sql = "select Date, Lieu, Type from Dates
-     where (Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') ORDER BY Dates.`Date` ASC";
+    $sql = "select Date, Lieu, Type from dates
+     where (dates.`Date` > '$annee1-08-01' and dates.`Date` < '$annee2-08-01') ORDER BY dates.`Date` ASC";
   }
   else
   { 
-    $sql = "select Date, Lieu, Type from Dates
-     where (Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01' and Dates.`Type` = '$type_filtre') ORDER BY Dates.`Date` ASC";
+    $sql = "select Date, Lieu, Type from dates
+     where (dates.`Date` > '$annee1-08-01' and dates.`Date` < '$annee2-08-01' and dates.`Type` = '$type_filtre') ORDER BY dates.`Date` ASC";
   }
   
   $liste_date = $conn_db->RequeteSQL($sql);

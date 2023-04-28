@@ -6,8 +6,8 @@ include (gestion_club_dir_path() . '/common.php');
 
 $gestion_saison = new GestionSaison();
 
-$saison=htmlspecialchars($_GET['saison']);
-if ($saison == "")
+$saison = "";
+if (array_key_exists('saison', $_POST))
 {
   $saison=htmlspecialchars($_POST['saison']);
 }

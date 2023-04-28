@@ -15,19 +15,19 @@ function AffichierClassement($filtre_match, $classement)
 
   $DonneesAAfficher = array(
     ""  => array("num_ligne"),
-    "NOM" => array("`Licencies`.NOM"),
-    "Prénom" => array("`Licencies`.Prenom"),
-    "Points" => array("SUM(`Résultats`.`Résultat`) as points"),
-    "Assiduité" => array("COUNT(`Résultats`.Code) as assiduite"),
-    "Moyenne" => array("AVG(`Résultats`.`Résultat`) as moyenne")
+    "NOM" => array("`licencies`.NOM"),
+    "Prénom" => array("`licencies`.Prenom"),
+    "Points" => array("SUM(`resultats`.`Resultat`) as points"),
+    "Assiduité" => array("COUNT(`resultats`.Code) as assiduite"),
+    "Moyenne" => array("AVG(`resultats`.`Resultat`) as moyenne")
   );
   
   
-  $sql_from = "`Résultats` INNER JOIN `Dates` on `Dates`.Date=`Résultats`.Date 
-  and ( (" . $filtre_match . ") and Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') 
-  RIGHT JOIN `Licencies` on `Résultats`.Code=`Licencies`.Code
-  WHERE `Licencies`.`$saison_selectionnee` is not null and `Licencies`.`$saison_selectionnee` != 'non'
-  GROUP BY `Licencies`.Code 
+  $sql_from = "`resultats` INNER JOIN `dates` on `dates`.Date=`resultats`.Date 
+  and ( (" . $filtre_match . ") and dates.`Date` > '$annee1-08-01' and dates.`Date` < '$annee2-08-01') 
+  RIGHT JOIN `licencies` on `resultats`.Code=`licencies`.Code
+  WHERE `licencies`.`$saison_selectionnee` is not null and `licencies`.`$saison_selectionnee` != 'non'
+  GROUP BY `licencies`.Code 
   ORDER BY " . $classement;
   
   $conn_db->AfficherTable($DonneesAAfficher, $sql_from);
@@ -47,18 +47,18 @@ function AffichierClassementMatch($filtre_match)
 
   $DonneesAAfficher = array(
     ""  => array("num_ligne"),
-    "NOM" => array("`Licencies`.NOM"),
-    "Prénom" => array("`Licencies`.Prenom"),
-    "Points" => array("SUM(`Résultats`.`Résultat`) as points")
+    "NOM" => array("`licencies`.NOM"),
+    "Prénom" => array("`licencies`.Prenom"),
+    "Points" => array("SUM(`resultats`.`Resultat`) as points")
   );
   
   
-  $sql_from = "`Résultats` INNER JOIN `Dates` on `Dates`.Date=`Résultats`.Date 
-  and ( (" . $filtre_match . ") and Dates.`Date` > '$annee1-08-01' and Dates.`Date` < '$annee2-08-01') 
-  RIGHT JOIN `Licencies` on `Résultats`.Code=`Licencies`.Code
-  WHERE `Licencies`.`$saison_selectionnee` is not null and `Licencies`.`$saison_selectionnee` != 'non'
-  GROUP BY `Licencies`.Code 
-  ORDER BY points DESC, `Licencies`.NOM ASC, `Licencies`.Prenom ASC";
+  $sql_from = "`resultats` INNER JOIN `dates` on `dates`.Date=`resultats`.Date 
+  and ( (" . $filtre_match . ") and dates.`Date` > '$annee1-08-01' and dates.`Date` < '$annee2-08-01') 
+  RIGHT JOIN `licencies` on `resultats`.Code=`licencies`.Code
+  WHERE `licencies`.`$saison_selectionnee` is not null and `licencies`.`$saison_selectionnee` != 'non'
+  GROUP BY `licencies`.Code 
+  ORDER BY points DESC, `licencies`.NOM ASC, `licencies`.Prenom ASC";
   
   $conn_db->AfficherTable($DonneesAAfficher, $sql_from);
 }
