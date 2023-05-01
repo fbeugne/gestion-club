@@ -1,4 +1,102 @@
 
+<!--
+  Formulaire de sélection de la date
+-->
+<?php
+
+include_once (gestion_club_dir_path() . '/common.php');
+
+$conn_db = new BaseDeDonnesPalet();
+  
+
+if (array_key_exists('action', $_GET))
+{
+  $action=htmlspecialchars($_GET['action']);
+}
+else
+{
+  $action="";
+}
+
+
+if (array_key_exists('date', $_POST))
+{
+  $date = htmlspecialchars($_POST['date']);
+}
+else if (array_key_exists('date', $_GET))
+{
+  $date = htmlspecialchars($_GET['date']);
+}
+else 
+{
+  $date = "";
+}
+
+if ($date != "")
+{
+  $sql = "select * from `dates` where `Date`='$date'";
+  $res = $conn_db->RequeteSQL($sql);
+  
+  if ($res)
+  {
+    $info_date=$res->fetch_array(MYSQLI_ASSOC);
+    
+    $type = $info_date['Type'];
+    
+    $res->free();
+  }
+}
+
+$gestion_saison = new GestionSaison();
+$saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
+$annee1 = $gestion_saison->GetAnnee1Selectionnee();
+$annee2 = $gestion_saison->GetAnnee2Selectionnee();
+
+$sql = "select Date, Lieu, Type from dates
+    where (dates.`Date` > '$annee1-08-01' and dates.`Date` < '$annee2-08-01') ORDER BY dates.`Type` ASC, dates.`Date` ASC";
+
+
+$liste_date = $conn_db->RequeteSQL($sql);
+
+?>
+
+
+<!--
+**********************************************************************************************************
+Formulaire de sélection d'une rencontre
+**********************************************************************************************************
+-->
+
+<table>
+  <tr>
+    <td>
+      <form action='<?php echo get_permalink();?>' method="post">
+        <select name='date' onchange="this.form.submit()">
+          
+          <option value=""> - Rencontre - </option>
+          <?php
+          
+            if ($liste_date)
+            {
+              while($info_date=$liste_date->fetch_array(MYSQLI_ASSOC))
+              {
+                $param="";
+                if ($date == $info_date['Date'])
+                {
+                  $param = "selected";
+                }
+                echo "<option value='" . $info_date['Date'] . "' " . $param . ">";
+                echo $info_date['Type'] . " - " . $info_date['Date'] . " - " . $info_date['Lieu'] . "</option>";
+              }
+              $liste_date->free();
+            }
+          ?>
+        </select>
+      </form>
+    </td>
+  </tr>
+</table>
+
 
 <!--
 **********************************************************************************************************
@@ -8,6 +106,13 @@ Initialisation des variables liées au tye de match
 
 
 <?php
+
+
+  if ($date == "")
+  {
+    echo "Aucune date sélectionnée";
+    exit();
+  }
 
 
   #quelques parametres de configuration
@@ -46,34 +151,12 @@ Initialisation des variables liées au tye de match
     echo "Type de match $type non pris en compte";
     exit();
   }
-  $title="$title - $date - $lieu";
-  
-  echo "$title";
-  
-  include_once (gestion_club_dir_path() . '/common.php');
-  
-  
-  $conn_db = new BaseDeDonnesPalet();
   
   $sql = "select Code, NOM, Prenom from licencies
    where (licencies.`$saison_selectionnee` !='non' and licencies.`$saison_selectionnee` is not null) ORDER BY `licencies`.`NOM` ASC, `licencies`.Prenom ASC";
   
   $liste_licencies_req = $conn_db->RequeteSQL($sql);
   
-  $sql = "select nb_joueurs, nb_adversaires, points_pour, points_contre from  `dates` where (dates.Date = '$date')";
-  
-  $resultats_match = $conn_db->RequeteSQL($sql);
-  $points_contre=0;
-  $points_pour=0;
-  $nb_adversaires=0;
-  $nb_joueurs=0;
-  if ($resultats_match && ($info_match=$resultats_match->fetch_array(MYSQLI_ASSOC)))
-  {
-    $points_contre=$info_match['points_contre'];
-    $points_pour=$info_match['points_pour'];
-    $nb_adversaires=$info_match['nb_adversaires'];
-    $nb_joueurs=$info_match['nb_joueurs'];
-  }
 ?>
 
 
@@ -85,74 +168,12 @@ Sauvegarde des donnees dans la base de donnees
 
 <?php
   // sauvegarde des resultats dans la base de données
-  if ($action == "modif_resultat_match_db")
-  {
-    include (gestion_club_dir_path() . '/rencontres/modifier_resultat_match_db.php');
-  }
-?>
-
-<?php
-  // sauvegarde des resultats dans la base de données
   if ($action == "modif_resultat_db")
   {
     include (gestion_club_dir_path() . '/rencontres/modifier_resultat_individuel_db.php');
   }
 ?>
 
-
-<!--
-**********************************************************************************************************
-Affichage du formulaire de saisie de resultats du match
-**********************************************************************************************************
--->
-
-<?php 
-if ( ($type != "Entrainement") && ($type != "Tournoi"))
-{
-?>
-  
-<form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'modif_resultat_match_db','date'=>$date),get_permalink()); ?>" method="post" name="saisie_resultat">
-  <table>
-    <tr>
-      <td> 
-        Nb joueurs : 
-      </td>
-      <td> 
-        <input name='nb_joueurs' type="int" value="<?php echo "$nb_joueurs"?>" style='width:auto'>
-      </td>
-      <td>
-        Nb adversaires : 
-      </td>
-      <td>
-        <input name='nb_adversaires' type="int" value="<?php echo "$nb_adversaires"?>" style='width:auto'><br>
-      </td>
-    </tr>
-    <tr>
-      <td> 
-        Points pour :
-      </td>
-      <td> 
-        <input name='points_pour' type="int" value="<?php echo "$points_pour"?>" style='width:auto'>
-      </td>
-      <td>
-        Points contre :
-      </td>
-      <td>
-        <input name='points_contre' type="int" value="<?php echo "$points_contre"?>" style='width:auto'><br>
-      </td>
-    </tr>
-    <tr>
-        <td><input type='submit' value='Sauvegarder les résultats du match'></td><td></td><td></td><td></td>
-    </tr>
-  </table>
-</form>
-
-<hr>
-
-
-<?php    
-}
-?>
   
 <!--
 **********************************************************************************************************
@@ -161,7 +182,7 @@ Affichage du formulaire de saisie de resultats de chaque licencié
 -->
 <div  class="resultat_licencie">
 
-<form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'modif_resultat_db','date'=>$date),get_permalink()); ?>" method="post" name="saisie_resultat">
+<form action="<?php echo add_query_arg(array('action'=>'modif_resultat_db','date'=>$date),get_permalink()); ?>" method="post" name="saisie_resultat">
   <table>
 <?php
 

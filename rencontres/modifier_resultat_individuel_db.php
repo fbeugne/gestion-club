@@ -100,7 +100,7 @@ if ($type == "Entrainement")
 
 $nb_joueurs=0;
 
-// printing table rows
+
 while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
 {
   $code = $row['Code'];
@@ -108,7 +108,14 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
   $prenom = $row['Prenom'];
   $total=0;
   
-  $present=htmlspecialchars($_POST['presence_'.$code]);
+  if (array_key_exists('presence_'.$code, $_POST))
+  {
+    $present=htmlspecialchars($_POST['presence_'.$code]);
+  }
+  else
+  {
+    $present=0;
+  }
 
   //recuperer l'id lié au resultat
   $sql="select Id from `resultats`
@@ -170,9 +177,9 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
 }
 
 
-// Sauvegarde du nombre de joueurs a l'entrainement
+// Sauvegarde du nombre de joueurs a l'entrainement ou tournoi interne
 // Il n'y a pas de formulaire pour saisir cette donnees. Elle est deduite a partir du formulaire des resultats individuel
-if ($type == "Entrainement")
+if (($type == "Entrainement") || ($type == "Tournoi"))
 {
   $sql = "update `dates` set `nb_joueurs` = '$nb_joueurs' where `Date` = '$date'";
   $conn_db->RequeteSQL($sql); 

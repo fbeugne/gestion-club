@@ -3,7 +3,7 @@
 include (gestion_club_dir_path() . '/rencontres/lib_classement.php');
 
 $match_amical = false;
-$match_champ = false; /* par defaut on affiche le championnat */
+$match_champ = false;
 $match_coupe = false;
 $match_entrainement = false;
 $classement = 1;  /* par defaut on classe par point */
@@ -62,12 +62,12 @@ else
 </form>
 
 
-<?
+<?php
 
 
 if ($match_amical)
 {
-  include (gestion_club_dir_path() . '/rencontres/lister_championnat.php');
+  include (gestion_club_dir_path() . '/rencontres/lister_amical.php');
 }
 if ($match_champ)
 {
