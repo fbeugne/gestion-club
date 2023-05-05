@@ -165,7 +165,6 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
     $sql = "update `resultats` set `Resultat` = '$total' where `Id` = '$id'";
     $conn_db->RequeteSQL($sql);
     
-    echo "<br>";
   }
   //Suppression d'un resultat
   else if (($res_id) && ($res_id->num_rows>0))

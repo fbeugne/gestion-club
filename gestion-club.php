@@ -30,6 +30,11 @@ function afficher_anniversaire()
     include (gestion_club_dir_path() . '/licencies/lister_licencies_anniversaire.php');
 }
 
+function afficher_naissance()
+{
+    include (gestion_club_dir_path() . '/licencies/lister_licencies_naissance.php');
+}
+
 function afficher_rencontres()
 {
     include (gestion_club_dir_path() . '/rencontres/lister_rencontres.php');

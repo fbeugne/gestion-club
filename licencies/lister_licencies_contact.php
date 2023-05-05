@@ -3,11 +3,9 @@
 include (gestion_club_dir_path() . '/common.php');
 
 $DonneesAAfficher = array(
-  "NOM" => array("NOM"),
-  "Prenom" => array("Prenom"),
+  "Nom" => array("NOM", "  ", "Prenom"),
   "Adresse" => array("Rue", " <br>", "CPostal", " <br>", "Ville"),
-  "Contact" => array("email", " <br>", "Fixe", " <br>", "Portable"),
-  "Date de naissance" => array("DATE_FORMAT(DATE_ADD(DATE_ADD(DATE_ADD('0000-01-01', INTERVAL `naissance`.`Annee` YEAR), INTERVAL `naissance`.`Mois` - 1 MONTH), INTERVAL `naissance`.`Jour` - 1 DAY), '%d / %m / %Y')")
+  "Contact" => array("email", " <br>", "Fixe", " <br>", "Portable")
 );
 
 

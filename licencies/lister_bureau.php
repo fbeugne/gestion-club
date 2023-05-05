@@ -28,24 +28,15 @@ foreach ($ListeRole as $role)
   $result = $conn_db->RequeteSQL($sql); 
   
   // Affichage des rôles uniques
-  echo "<tr>";
   if ( ($result) && ($info_bureau = $result->fetch_row()) )
   {
     $nom=$info_bureau[0];
     $prenom=$info_bureau[1];
     
+    echo "<tr>";
     echo "<td><b>$role</td>";
-    echo "<td>$nom</td>";
-    echo "<td>$prenom</td>";
+    echo "<td>$nom $prenom</td>";
     echo "</tr>"; 
-  }
-  else
-  {
-      echo "<tr>";
-      echo "<td><b>$role</td>";
-      echo "<td><i>Inconnu</td>";
-      echo "<td><i>Inconnu</td>";
-      echo "</tr>"; 
   }
 }
 
@@ -63,18 +54,9 @@ if ($result)
     
     echo "<tr>";
     echo "<td><b>Membre</td>";
-    echo "<td>$nom</td>";
-    echo "<td>$prenom</td>";
+    echo "<td>$nom $prenom</td>";
     echo "</tr>"; 
   }
-}
-else
-{
-    echo "<tr>";
-    echo "<td><b>Membre</td>";
-    echo "<td><i>Inconnu</td>";
-    echo "<td><i>Inconnu</td>";
-    echo "</tr>";
 }
   
 echo "</table>";

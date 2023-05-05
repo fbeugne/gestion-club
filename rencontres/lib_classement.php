@@ -15,8 +15,7 @@ function AffichierClassement($filtre_match, $classement)
 
   $DonneesAAfficher = array(
     ""  => array("num_ligne"),
-    "NOM" => array("`licencies`.NOM"),
-    "Prénom" => array("`licencies`.Prenom"),
+    "Nom" => array("`licencies`.NOM", "  ", "`licencies`.Prenom"),
     "Points" => array("SUM(`resultats`.`Resultat`) as points"),
     "Assiduité" => array("COUNT(`resultats`.Code) as assiduite"),
     "Moyenne" => array("AVG(`resultats`.`Resultat`) as moyenne")
@@ -47,8 +46,7 @@ function AffichierClassementMatch($filtre_match)
 
   $DonneesAAfficher = array(
     ""  => array("num_ligne"),
-    "NOM" => array("`licencies`.NOM"),
-    "Prénom" => array("`licencies`.Prenom"),
+    "Nom" => array("`licencies`.NOM", "  ", "`licencies`.Prenom"),
     "Points" => array("SUM(`resultats`.`Resultat`) as points")
   );
   

@@ -57,10 +57,11 @@ while($info_licencies=$result_req->fetch_array(MYSQLI_ASSOC))
 }
 ?>
 
+
 </select>
 <input type='submit' value='Sélectionner'/>
-<input type='submit' name='action' value='Ajouter' />
-<input type='submit' name='action' value='Supprimer' />
+<input type='submit' name='action' value='Ajouter' title='Ajoute le licencié à la saison'/>
+<input type='submit' name='action' value='Supprimer' title='Supprime le licencié de la saison' />
 </form>
 </p>
 

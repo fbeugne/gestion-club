@@ -218,8 +218,7 @@ Affichage du formulaire de saisie de resultats de chaque licencié
 		    echo " checked";
 		  }
 		  echo "/></td>";
-		  echo "<td>$nom</td>";
-		  echo "<td>$prenom</td>";
+		  echo "<td>$nom $prenom</td>";
 		  
       
 		  for ($num_partie=0; $num_partie<$nb_partie; $num_partie++)
