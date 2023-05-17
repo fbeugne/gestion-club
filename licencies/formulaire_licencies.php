@@ -1,13 +1,10 @@
-
 <?php
+include_once (gestion_club_dir_path() . '/common.php');
+include_once (gestion_club_dir_path() . '/licencies/modifier_licencie_db.php');
 
 if (array_key_exists('action', $_GET))
 {
   $action=htmlspecialchars($_GET['action']);
-}
-else if (array_key_exists('action', $_POST))
-{
-  $action=htmlspecialchars($_POST['action']);
 }
 else
 {
@@ -27,7 +24,6 @@ else
   $id="";
 }
 
-include_once (gestion_club_dir_path() . '/common.php');
 
 
 $conn_db = new BaseDeDonnesPalet();
@@ -35,10 +31,9 @@ $conn_db = new BaseDeDonnesPalet();
 ?>
 
 <p>
-<form method="post" action="<?php echo get_permalink() ?>">
-Sélectionner un licencié : 
-<select name='id' id='id'>
-
+<form method="post" action="<?php echo add_query_arg(array('action'=>'Sélectionner'),get_permalink());?>">
+<select name='id' id='id' onchange="this.form.submit()">
+  <option value="">Sélectionner un licencié</option>
 <?php
 $sql = "select Code, NOM, Prenom from licencies ORDER BY `licencies`.`NOM` ASC";
 $result_req = $conn_db->RequeteSQL($sql);
@@ -56,13 +51,9 @@ while($info_licencies=$result_req->fetch_array(MYSQLI_ASSOC))
   echo "</option>";
 }
 ?>
-
-
 </select>
-<input type='submit' value='Sélectionner'/>
-<input type='submit' name='action' value='Ajouter' title='Ajoute le licencié à la saison'/>
-<input type='submit' name='action' value='Supprimer' title='Supprime le licencié de la saison' />
 </form>
+
 </p>
 
 
@@ -73,19 +64,41 @@ if ($id != "")
   $gestion_saison = new GestionSaison();
   $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
 
-  if ($action == 'Ajouter') 
+  if ($action == '[ajouter_db]') 
   {
     $sql="UPDATE licencies SET `$saison_selectionnee` = 'OUI' WHERE Code='$id'";
     $conn_db->RequeteSQL($sql);
   } 
-  else if ($action == 'Supprimer') 
+  else if ($action == '[supprimer_db]') 
   {
-    $sql="UPDATE licencies SET `$saison_selectionnee` = null WHERE Code='$id'";
+    $sql="UPDATE licencies SET `$saison_selectionnee` = 'non' WHERE Code='$id'";
     $conn_db->RequeteSQL($sql);
-  }   
+  }
   else if ($action=="[modifier_db]")
   {
-    include_once (gestion_club_dir_path() . '/licencies/modifier_licencie_db.php');
+    
+    // Recuperation des donnes du formulaire
+    $code=$id;
+    $nom=strtoupper(htmlspecialchars($_POST['nom']));
+    $prenom=htmlspecialchars($_POST['prenom']);
+    $date_naissance=htmlspecialchars($_POST['date_naissance']);
+    $rue=htmlspecialchars($_POST['rue']);
+    $CPostal=htmlspecialchars($_POST['CPostal']);
+    $ville=htmlspecialchars($_POST['ville']);
+    $email=htmlspecialchars($_POST['email']);
+    $fixe=htmlspecialchars($_POST['fixe']);
+    $portable=htmlspecialchars($_POST['portable']);
+
+    modifier_licencie_db( $code,
+                          $nom,
+                          $prenom,
+                          $date_naissance,
+                          $rue,
+                          $CPostal,
+                          $ville,
+                          $email,
+                          $fixe,
+                          $portable );
   }
   else 
   {
@@ -116,11 +129,29 @@ if ($id != "")
   
 ?>
 
+<br>
+<table>
+  <tr>
+    <td>
+      <form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'[ajouter_db]'),get_permalink()); ?>" method="post">
+          <input type='submit'  value='Ajouter le licencié à la saison'/>
+      </form>
+    </td>
+    <td>
+      <form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'[supprimer_db]'),get_permalink()); ?>" method="post">
+          <input type='submit' value='Supprimer le licencié de la saison' />
+      </form>
+    </td>
+  </tr>
+</table>
+
+<br>
+
 <hr>
 <form action="<?php echo add_query_arg(array('id'=>$id,'action'=>'[modifier_db]'),get_permalink()); ?>" method="post">
     <table>
         <tr>
-            <td>Code : </td><td><input type="text" name="code" value="<?php echo $result_licencies['Code']; ?>"/></td>
+            <td>Code : </td><td><input type="text" name="code" value="<?php echo $result_licencies['Code']; ?>" readonly/></td>
         </tr>
         <tr>
             <td>Nom : </td><td><input type="text" name="nom" value="<?php echo $result_licencies['NOM']; ?>"/></td>
@@ -149,10 +180,8 @@ if ($id != "")
         <tr>
             <td>Portable : </td><td><input type="tel" name="portable" value="<?php echo $result_adresse['Portable']; ?>" /></td>
         </tr>
-        <tr>
-            <td><input type="submit" value="Mettre à jour"/></td><td></td>
-        </tr>
     </table>
+    <input type="submit" value="Mettre à jour"/>
 </form>
 
 

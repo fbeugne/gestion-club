@@ -160,8 +160,7 @@ class BaseDeDonnesPalet
       while (($index_nom < strlen($arg_nom)) && ($tri_existe == true))
       {
         $ret_code[2] = strtoupper($arg_nom)[$index_nom];
-        $req = $this->RequeteSQL("SELECT Code FROM Licencies WHERE Code = '" . $ret_code . "'");
-        
+        $req = $this->conn_db->query("SELECT Code FROM licencies WHERE Code = '" . $ret_code . "'");
         if (($req == false) || ($req->num_rows == 0)) {
           $tri_existe = false;
         }

@@ -51,6 +51,11 @@ function afficher_formulaire_licencies()
     include (gestion_club_dir_path() . '/licencies/formulaire_licencies.php');
 }
 
+function afficher_formulaire_nouveau_licencie()
+{
+    include (gestion_club_dir_path() . '/licencies/formulaire_nouveau_licencie.php');
+}
+
 function afficher_formulaire_rencontres()
 {
     include (gestion_club_dir_path() . '/rencontres/formulaire_rencontres.php');

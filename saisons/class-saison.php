@@ -48,11 +48,19 @@ class GestionSaison
     $sql = "UPDATE `saison` SET `selected` = '0'";
     $this->conn_db->RequeteSQL($sql); 
     
-    # selection la bonne saison
+    # recuperation de la premiere année de la saison sélectionnée
+    $anne_selectionnee = intval(strtok($saison, '/'));
+
+    # ajout de la saison dans la table des saisons si elle n'existe pas
+    $sql = "INSERT IGNORE  INTO `saison` (`annee`, `selected`) VALUES ('$anne_selectionnee', '0')";
+    $this->conn_db->RequeteSQL($sql); 
+
+    # ajout de la saison dans la table des licenciés si elle n'existe pas
+    $sql = "ALTER TABLE `licencies` ADD IF NOT EXISTS `$saison` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'non'";
+    $this->conn_db->RequeteSQL($sql); 
     
-    $saison_selectionnee = intval(strtok($saison, '/'));
-      
-    $sql = "UPDATE `saison` SET `selected` = '1' WHERE `saison`.`annee` = $saison_selectionnee";
+    # sauvegarde de la saison sélection dans la table sql
+    $sql = "UPDATE `saison` SET `selected` = '1' WHERE `saison`.`annee` = $anne_selectionnee";
     $this->conn_db->RequeteSQL($sql); 
     
     $this->UpdateDonneesSaisonSelectionnee();
