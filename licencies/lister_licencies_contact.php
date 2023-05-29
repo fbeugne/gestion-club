@@ -4,8 +4,7 @@ include (gestion_club_dir_path() . '/common.php');
 
 $DonneesAAfficher = array(
   "Nom" => array("NOM", "  ", "Prenom"),
-  "Adresse" => array("Rue", " <br>", "CPostal", " <br>", "Ville"),
-  "Contact" => array("email", " <br>", "Fixe", " <br>", "Portable")
+  "Contact" => array("Rue", " <br>", "CPostal", " <br>", "Ville", " <br>","email", " <br>", "Fixe", " <br>", "Portable")
 );
 
 
