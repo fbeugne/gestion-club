@@ -66,11 +66,13 @@ if ($id != "")
 
   if ($action == '[ajouter_db]') 
   {
+    $gestion_saison->UpdateBdSaisonSelectionnee();
     $sql="UPDATE licencies SET `$saison_selectionnee` = 'OUI' WHERE Code='$id'";
     $conn_db->RequeteSQL($sql);
   } 
   else if ($action == '[supprimer_db]') 
   {
+    $gestion_saison->UpdateBdSaisonSelectionnee();
     $sql="UPDATE licencies SET `$saison_selectionnee` = 'non' WHERE Code='$id'";
     $conn_db->RequeteSQL($sql);
   }

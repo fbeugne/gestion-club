@@ -6,42 +6,41 @@ include (gestion_club_dir_path() . '/common.php');
 
 $gestion_saison = new GestionSaison();
 
-$saison = "";
-if (array_key_exists('saison', $_POST))
-{
-  $saison=htmlspecialchars($_POST['saison']);
-}
-if ($saison != "")
-{
-  $gestion_saison->SetSaisonSelectionnee($saison);
-}
-$saison_courante = $gestion_saison->GetSaisonSelectionnee();
-$annee_en_cours = $gestion_saison->GetAnneeEnCours();
+$annee_1_selectionnee = $gestion_saison->GetAnnee1Selectionnee();
+$annee_1 = $gestion_saison->GetAnneeEnCours();
 
 ?>
 
 
-<form action="<?php get_permalink(); ?>" method="post">
-<select name='saison' id='saison'>
+<form>
+<select name='saison' id='saison' onChange='set_coookie_saison_selectionnee(this)'>
 
 <?php
 $premiere_annee = 1987;
-while ($annee_en_cours > $premiere_annee)
+while ($annee_1 >= $premiere_annee)
 {
-  $annee_precedente = $annee_en_cours-1;
-  $val = "$annee_precedente/$annee_en_cours";
-  $val_print = "$annee_precedente / $annee_en_cours";
+  $annee_2 = $annee_1 + 1;
+  $val = "$annee_1/$annee_2";
+  $val_print = "$annee_1 / $annee_2";
   echo "<option value='$val'";
-  if ($val == $saison_courante)
+  if ($annee_1 == $annee_1_selectionnee)
   {
-    echo "selected";
+    echo " selected";
   }
   echo ">$val_print</option>";
-  $annee_en_cours = $annee_precedente;
+  $annee_1 = $annee_1 - 1;
 }
 ?>
 
 </select>
-
-<input type='submit' value='OK'/>
 </form>
+
+
+
+<script>
+  function set_coookie_saison_selectionnee(element)
+  {
+    document.cookie = "coookie-saison-selectionnee=" + element.value + ";path=/;";
+    location.reload();
+  }
+</script>
