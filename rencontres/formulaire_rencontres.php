@@ -76,6 +76,14 @@ Action lié au formualaire
     $conn_db->RequeteSQL($sql);
     $date="";
   }
+  
+  // sauvegarde des resultats dans la base de données
+  else if ($action == "modif_resultat_match_db")
+  {
+    $date = htmlspecialchars($_GET['date']);
+    include (gestion_club_dir_path() . '/rencontres/modifier_resultat_match_db.php');
+  }
+
   //selection d'une date
   else
   {
@@ -84,27 +92,32 @@ Action lié au formualaire
     {
       $date = htmlspecialchars($_POST['date']);
     }
+    else if (array_key_exists('date', $_GET))
+    {
+      $date = htmlspecialchars($_GET['date']);
+    }
     else
     {
       $date = "";
     }
+  }
+  
+
+  if ($date != "")
+  {
+    $sql = "select * from `dates` where `Date`='$date'";
+    $res = $conn_db->RequeteSQL($sql);
     
-    if ($date != "")
+    if ($res)
     {
-      $sql = "select * from `dates` where `Date`='$date'";
-      $res = $conn_db->RequeteSQL($sql);
+      $info_date=$res->fetch_array(MYSQLI_ASSOC);
       
-      if ($res)
-      {
-        $info_date=$res->fetch_array(MYSQLI_ASSOC);
-        
-        $type = $info_date['Type'];
-        $type_filtre = $type;
-        $lieu = $info_date['Lieu'];
-        $dpct = $info_date['Dpct'];
-        
-        $res->free();
-      }
+      $type = $info_date['Type'];
+      $type_filtre = $type;
+      $lieu = $info_date['Lieu'];
+      $dpct = $info_date['Dpct'];
+      
+      $res->free();
     }
   }
   
@@ -225,15 +238,6 @@ Formulaire de gestion des dates
 </table>
 
 
-<?php
-  // sauvegarde des resultats dans la base de données
-  if ($action == "modif_resultat_match_db")
-  {
-    include (gestion_club_dir_path() . '/rencontres/modifier_resultat_match_db.php');
-  }
-?>
-
-
 
 <!--
 **********************************************************************************************************
@@ -269,35 +273,31 @@ if ( ($date != "") && (($type == "Championnat") || ($type == "Coupe") || ($type 
 <form action="<?php echo add_query_arg(array('action'=>'modif_resultat_match_db','date'=>$date),get_permalink()); ?>" method="post" name="saisie_resultat">
   <table>
     <tr>
-      <td> 
-        Nb joueurs : 
-      </td>
-      <td> 
+      <td>
+        Nb joueurs
+        <br>
         <input name='nb_joueurs' type="int" value="<?php echo "$nb_joueurs"?>" style='width:auto'>
       </td>
       <td>
-        Nb adversaires : 
-      </td>
-      <td>
+        Nb adversaires
+        <br>
         <input name='nb_adversaires' type="int" value="<?php echo "$nb_adversaires"?>" style='width:auto'><br>
       </td>
     </tr>
     <tr>
       <td> 
-        Points pour :
-      </td>
-      <td> 
+        Points pour
+        <br>
         <input name='points_pour' type="int" value="<?php echo "$points_pour"?>" style='width:auto'>
       </td>
       <td>
-        Points contre :
-      </td>
-      <td>
+        Points contre
+        <br>
         <input name='points_contre' type="int" value="<?php echo "$points_contre"?>" style='width:auto'><br>
       </td>
     </tr>
     <tr>
-        <td><input type='submit' value='Sauvegarder les résultats du match'></td><td></td><td></td><td></td>
+        <td><input type='submit' value='Sauvegarder les résultats du match'></td><td></td>
     </tr>
   </table>
 </form>

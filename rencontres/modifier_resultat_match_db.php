@@ -2,6 +2,7 @@
 
 <?php
 
+  $date = htmlspecialchars($_GET['date']);
   $nb_joueurs = htmlspecialchars($_POST['nb_joueurs']);
   $nb_adversaires = htmlspecialchars($_POST['nb_adversaires']);
   $points_pour = htmlspecialchars($_POST['points_pour']);

@@ -2,39 +2,23 @@
 <?php
 include (gestion_club_dir_path() . '/rencontres/lib_classement.php');
 
-$match_amical = false;
-$match_champ = false;
-$match_coupe = false;
-$match_entrainement = false;
 $classement = 1;  /* par defaut on classe par point */
-$action_affichage = null;
+$filtre_match = 1;  /* par defaut on affiche le championnat */
 
 if (empty($_POST))
 {
-  $match_champ = true; /* par defaut on affiche le championnat */
+  $filtre_match = 1; /* par defaut on affiche le championnat */
   $classement = 1;  /* par defaut on classe par point */
 }
 else
 {
-  if (array_key_exists('match_amical', $_POST))
-  {
-    $match_amical = htmlspecialchars($_POST['match_amical']);
-  }
-  if (array_key_exists('match_champ', $_POST))
-  {
-    $match_champ = htmlspecialchars($_POST['match_champ']);
-  }
-  if (array_key_exists('match_coupe', $_POST))
-  {
-    $match_coupe = htmlspecialchars($_POST['match_coupe']);
-  }
-  if (array_key_exists('match_entrainement', $_POST))
-  {
-    $match_entrainement = htmlspecialchars($_POST['match_entrainement']);
-  }
   if (array_key_exists('classement', $_POST))
   {
     $classement = htmlspecialchars($_POST['classement']);
+  }
+  if (array_key_exists('filtre_match', $_POST))
+  {
+    $filtre_match = htmlspecialchars($_POST['filtre_match']);
   }
 }
 
@@ -42,21 +26,25 @@ else
 ?>
 
 
-<form>
+<form method="post">
   <table>
     <tr>
-      <td>Filtre des matchs : </td>
-      <td><input type='checkbox' name='match_amical' id='match_amical' value='1' <?php if ($match_amical) { echo " checked"; } ?>/> Amical</td>
-      <td><input type='checkbox' name='match_champ' id='match_champ' value='1' <?php if ($match_champ) { echo " checked"; } ?>/> Championnat</td>
-      <td><input type='checkbox' name='match_coupe' id='match_coupe' value='1' <?php if ($match_coupe) { echo " checked"; } ?>/> Coupe</td>
-      <td><input type='checkbox' name='match_entrainement' id='match_entrainement' value='1' <?php if ($match_entrainement) { echo " checked"; } ?>/> Entraînement</td>
-    </tr>
-    <tr>
-      <td><input type='submit' value='Tri du classement' formaction='<?php echo get_permalink();?>' formmethod='post'> </td>
-      <td><input type="radio" name="classement" id="classement" value="0" <?php  if ($classement == "0") echo "checked";?> > Alphabétique</td>
-      <td><input type="radio" name="classement" id="classement" value="1" <?php  if ($classement == "1") echo "checked";?> > Points</td>
-      <td><input type="radio" name="classement" id="classement" value="2" <?php  if ($classement == "2") echo "checked";?> > Assiduité</td>
-      <td><input type="radio" name="classement" id="classement" value="3" <?php  if ($classement == "3") echo "checked";?> > Moyenne</td>
+      <td>
+        <select name='filtre_match' onchange="this.form.submit()">  
+          <option value="0" <?php  if ($filtre_match == "0") echo "selected";?>> Matchs amicaux </option>
+          <option value="1" <?php  if ($filtre_match == "1") echo "selected";?>> Match de championnat </option>
+          <option value="2" <?php  if ($filtre_match == "2") echo "selected";?>> Match de coupe </option>
+          <option value="3" <?php  if ($filtre_match == "3") echo "selected";?>> Entraînements </option>
+        </select>
+      </td>
+      <td>
+        <select name='classement' onchange="this.form.submit()">  
+          <option value="0" <?php  if ($classement == "0") echo "selected";?>> Ordre alphabétique </option>
+          <option value="1" <?php  if ($classement == "1") echo "selected";?>> Tri par points </option>
+          <option value="2" <?php  if ($classement == "2") echo "selected";?>> Tri par assiduité </option>
+          <option value="3" <?php  if ($classement == "3") echo "selected";?>> Tri par la moyenne </option>
+        </select>
+      </td>
     </tr>   
   </table>
 </form>
@@ -65,19 +53,19 @@ else
 <?php
 
 
-if ($match_amical)
+if ($filtre_match == "0")
 {
   include (gestion_club_dir_path() . '/rencontres/lister_amical.php');
 }
-if ($match_champ)
+if ($filtre_match == "1")
 {
   include (gestion_club_dir_path() . '/rencontres/lister_championnat.php');
 }
-if ($match_coupe)
+if ($filtre_match == "2")
 {
   include (gestion_club_dir_path() . '/rencontres/lister_coupe.php');
 }
-if ($match_entrainement)
+if ($filtre_match == "3")
 {
   include (gestion_club_dir_path() . '/rencontres/lister_entrainement.php');
 }
@@ -86,19 +74,19 @@ if ($match_entrainement)
 
 $Filtre_SQL="FALSE";
 $Tri_SQL="";
-if ($match_amical)
+if ($filtre_match == "0")
 {
   $Filtre_SQL=$Filtre_SQL . " OR dates.`Type` = 'Amical'";
 }
-if ($match_champ)
+if ($filtre_match == "1")
 {
   $Filtre_SQL=$Filtre_SQL . " OR dates.`Type` = 'Championnat'";
 }
-if ($match_coupe)
+if ($filtre_match == "2")
 {
   $Filtre_SQL=$Filtre_SQL . " OR dates.`Type` = 'Coupe'";
 }
-if ($match_entrainement)
+if ($filtre_match == "3")
 {
   $Filtre_SQL=$Filtre_SQL . " OR dates.`Type` = 'Entrainement'";
 }
