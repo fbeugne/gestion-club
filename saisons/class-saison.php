@@ -54,8 +54,8 @@ class GestionSaison
   {
     $annee = intval(date('Y'));
     
-    // A partir d'avril on commence a préparer la saison suivante
-    if (intval(date('m')) < 4)
+    // A partir de juin on commence a préparer la saison suivante
+    if (intval(date('m')) < 6)
     {
       $annee = $annee - 1;
     }

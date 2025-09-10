@@ -9,6 +9,11 @@ if (empty($_POST))
 {
   $filtre_match = 1; /* par defaut on affiche le championnat */
   $classement = 1;  /* par defaut on classe par point */
+  
+  if (array_key_exists('filtre_match', $_GET))
+  {
+    $filtre_match = htmlspecialchars($_GET['filtre_match']);
+  }
 }
 else
 {
