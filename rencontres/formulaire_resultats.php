@@ -119,31 +119,26 @@ Initialisation des variables liées au tye de match
   if ($type == "Coupe")
   {
     $title="Match de coupe";
-    $nb_partie = 6;
     $nb_point_max=13;
   }
   else if ($type == "Championnat")
   {
     $title="Match de championnat";
-    $nb_partie = 6;
     $nb_point_max=11;
   }
   else if ($type == "Entrainement")
   {
     $title="Entrainement";
-    $nb_partie = 4;
     $nb_point_max=11;
   }
   else if ($type == "Amical")
   {
     $title="Match amical";
-    $nb_partie = 6;
     $nb_point_max=11;
   }
   else if ($type == "Tournoi")
   {
     $title="Tournoi interne";
-    $nb_partie = 6;
     $nb_point_max=13;
   }
   else
@@ -151,6 +146,8 @@ Initialisation des variables liées au tye de match
     echo "Type de match $type non pris en compte";
     exit();
   }
+
+  $nb_parties=$conn_db->GetNbPartiesFromDate($date);
   
   $sql = "select Code, NOM, Prenom from licencies
    where (licencies.`$saison_selectionnee` !='non' and licencies.`$saison_selectionnee` is not null) ORDER BY `licencies`.`NOM` ASC, `licencies`.Prenom ASC";
@@ -195,7 +192,7 @@ Affichage du formulaire de saisie de resultats de chaque licencié
 		  $prenom = $row['Prenom'];
 		  
       $sql = "select pour_1, contre_1, pour_2, contre_2, pour_3, contre_3,
-       pour_4, contre_4, pour_5, contre_5, pour_6, contre_6 from `resultats`
+       pour_4, contre_4, pour_5, contre_5, pour_6, contre_6, pour_7, contre_7, pour_8, contre_8 from `resultats`
        where (`resultats`.`Date` ='$date' and `resultats`.`Code` = '$code')";
       
     
@@ -212,7 +209,7 @@ Affichage du formulaire de saisie de resultats de chaque licencié
 		  }
 		  
 		  echo "<tr style='border:1px solid #ededed;'>";
-		  echo "<td><input type='checkbox' name='presence_$code' id='presence_$code' value='1' onclick='reset_resultat(\"$code\", $nb_partie)'";
+		  echo "<td><input type='checkbox' name='presence_$code' id='presence_$code' value='1' onclick='reset_resultat(\"$code\", $nb_parties)'";
 		  if ($present)
 		  {
 		    echo " checked";
@@ -221,7 +218,7 @@ Affichage du formulaire de saisie de resultats de chaque licencié
 		  echo "<td>$nom $prenom</td>";
 		  
       
-		  for ($num_partie=0; $num_partie<$nb_partie; $num_partie++)
+		  for ($num_partie=0; $num_partie<$nb_parties; $num_partie++)
 		  {
 		    if ($present)
 		    {
@@ -229,7 +226,6 @@ Affichage du formulaire de saisie de resultats de chaque licencié
   		    $pour=$resultats_db['pour_'.$num_partie_db];
   		    $contre=$resultats_db['contre_'.$num_partie_db];
 		    }
-		    echo "<td style='border-left:1px solid #ededed;'></td>";
   		  echo "<td><select name='".$num_partie."_gagne_".$code."' id='".$num_partie."_gagne_".$code."' onChange='set_resultat_oppose(this, \"$num_partie\", \"$code\", $nb_point_max)'>";
   		  echo "<option value='-1'>  </option>";
   		  for ($i=0; $i<$nb_point_max;$i++)

@@ -145,7 +145,7 @@ while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
      
 
     //Enregistrement des resultats de chaque partie
-    for ($num_partie=0; $num_partie<$nb_partie; $num_partie++)
+    for ($num_partie=0; $num_partie<$nb_parties; $num_partie++)
     {
       $gagne=htmlspecialchars($_POST[$num_partie."_gagne_".$code]);
       $perdu=htmlspecialchars($_POST[$num_partie."_perdu_".$code]);

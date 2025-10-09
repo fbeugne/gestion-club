@@ -182,6 +182,50 @@ class BaseDeDonnesPalet
       
     return $ret_code;
   }
+
+
+  public function GetNbPartiesFromDate($date)
+  {
+    $nb_parties = 0;
+    $sql = "select Type from dates where (Date='$date')";
+    $result = $this->RequeteSQL($sql);
+
+    if ( ($result) && ($info_date = $result->fetch_row()) )
+    {
+      $type=$info_date[0];
+    }
+    else {
+      die("Erreur lors de la recuperation de la date: " . $date);
+    }
+
+    #quelques parametres de configuration
+    if ($type == "Coupe")
+    {
+      $nb_parties = 6;
+    }
+    else if ($type == "Championnat")
+    {
+      $nb_parties = 6;
+    }
+    else if ($type == "Entrainement")
+    {
+      $nb_parties = 4;
+    }
+    else if ($type == "Amical")
+    {
+      $nb_parties = 6;
+    }
+    else if ($type == "Tournoi")
+    {
+      $nb_parties = 8;   #6 parties avant demi et finale
+    }
+    else
+    {
+      echo "Type de match $type non pris en compte";
+      exit();
+    }
+    return $nb_parties;
+  }
 }
 
 

@@ -80,11 +80,99 @@ include (gestion_club_dir_path() . '/rencontres/lib_classement.php');
 if ($date != "")
 {
   $Filtre_SQL="dates.`Date` = '$date'";
-  $Tri_SQL="points DESC, assiduite DESC, `licencies`.NOM ASC, `licencies`.Prenom ASC";
-
   AffichierClassementMatch($Filtre_SQL);
 }
 
+?>
+
+
+<!--
+**********************************************************************************************************
+Affichage des resultats de chaque licencié
+**********************************************************************************************************
+-->
+
+<?php
+if ($date != "")
+{
+?>
+
+<div  class="resultat_licencie">
+
+  <table>
+<?php
+
+    $nb_parties=$conn_db->GetNbPartiesFromDate($date);
+
+    $gestion_saison = new GestionSaison();
+    $saison_selectionnee = $gestion_saison->GetSaisonSelectionnee();
+
+    $sql = "select Code, NOM, Prenom from licencies
+    where (licencies.`$saison_selectionnee` !='non' and licencies.`$saison_selectionnee` is not null) ORDER BY `licencies`.`NOM` ASC, `licencies`.Prenom ASC";
+
+    $liste_licencies_req = $conn_db->RequeteSQL($sql);
+
+    $liste_licencies_req->data_seek(0);
+		// printing table rows
+		while($row = $liste_licencies_req->fetch_array(MYSQLI_ASSOC))
+		{
+		  $code = $row['Code'];
+		  $nom = $row['NOM'];
+		  $prenom = $row['Prenom'];
+		  
+      $sql = "select pour_1, contre_1, pour_2, contre_2, pour_3, contre_3,
+       pour_4, contre_4, pour_5, contre_5, pour_6, contre_6, pour_7, contre_7, pour_8, contre_8 from `resultats`
+       where (`resultats`.`Date` ='$date' and `resultats`.`Code` = '$code')";
+      
+    
+      $res_db = $conn_db->RequeteSQL($sql);
+      $present=false;
+		  $pour=null;
+		  $contre=null;
+      
+      // un resultat est présent, on le recupere
+		  if ($res_db && $res_db->num_rows>0)
+		  {
+		    $present=true;
+        $resultats_db = $res_db->fetch_array(MYSQLI_ASSOC);
+		  }
+		  
+		  echo "<tr style='border:1px solid #ededed;'>";
+		  echo "<td><input type='checkbox' disabled value='1'";
+		  if ($present)
+		  {
+		    echo " checked";
+		  }
+		  echo "/></td>";
+		  echo "<td>$nom $prenom</td>";
+		  
+      
+		  for ($num_partie=0; $num_partie<$nb_parties; $num_partie++)
+		  {
+		    if ($present)
+		    {
+  		    $num_partie_db=$num_partie+1;
+  		    $pour=$resultats_db['pour_'.$num_partie_db];
+  		    $contre=$resultats_db['contre_'.$num_partie_db];
+		    }
+        if($pour==0 && $contre==0){
+          echo "<td style='border-left:3px solid #ededed;text-align: center;'></td>";
+          echo "<td style='border-left:1px solid #ededed;text-align: center;'></td>";
+        }
+        else{  
+		      echo "<td style='border-left:3px solid #ededed;text-align: center;'>$pour</td>";
+  		    echo "<td style='border-left:1px solid #ededed;text-align: center;'>$contre</td>";
+        }
+		  }
+		  echo "</tr>";
+		}
+?>
+  </table>
+  
+</div>
+
+<?php
+}
 ?>
 
 
