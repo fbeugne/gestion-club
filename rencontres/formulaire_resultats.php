@@ -94,6 +94,14 @@ Formulaire de sélection d'une rencontre
         </select>
       </form>
     </td>
+    <td>
+      <?php
+        if ($date != "")
+        {
+         echo "<button id='popupBtn'>Importer</button>";
+        }
+      ?>
+    </td>
   </tr>
 </table>
 
@@ -157,6 +165,38 @@ Initialisation des variables liées au tye de match
 ?>
 
 
+<!-- Popup -->
+<div id="popup" style="display:none">
+  <div>
+    <textarea id="excelPaste" placeholder="Colle ton tableau Excel ici (Ctrl+V)..."  rows="10" cols="80"></textarea>
+    <br><br>
+<?php
+    echo "<button id='importBtn' onclick='update_resultat_excel(${nb_point_max})'>Mettre à jour</button>";
+?>
+    <br><br>
+  </div>
+</div>
+
+<!--
+**********************************************************************************************************
+Scripts permettant d'afficher ou de cacher le popup de saisie des résultats par copier coller
+Une fois la page chargée
+**********************************************************************************************************
+-->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const popupBtn = document.getElementById('popupBtn');
+
+    popupBtn.addEventListener('click', () => {
+      const isVisible = popup.style.display === 'flex';
+      popup.style.display = isVisible ? 'none' : 'flex';
+      popupBtn.textContent = isVisible ? 'Importer' : 'Fermer  ';
+    });
+  });
+</script>
+
+
 <!--
 **********************************************************************************************************
 Sauvegarde des donnees dans la base de donnees
@@ -215,7 +255,7 @@ Affichage du formulaire de saisie de resultats de chaque licencié
 		    echo " checked";
 		  }
 		  echo "/></td>";
-		  echo "<td>$nom $prenom</td>";
+		  echo "<td id='name_$nom,$prenom' data-code='$code'/>$nom $prenom</td>";
 		  
       
 		  for ($num_partie=0; $num_partie<$nb_parties; $num_partie++)
@@ -270,6 +310,10 @@ Scripts permettant de facilité la rentré des résultats
 -->
 
 <script>
+  
+  /*
+   * Fonction permettant de mettre les points sur le pour ou le contre opposé
+   */ 
   function set_resultat_oppose(element, num_partie, code, nb_point_max)
   {
     if (element.id==(num_partie+"_gagne_"+code))
@@ -297,15 +341,66 @@ Scripts permettant de facilité la rentré des résultats
       }
     }
   }
+  
+  /*
+   * Fonction permettant d'effacer les resultats d'un joueur lorsque celui-ci est décoché 
+   */
   function reset_resultat(code, nb_parties)
   {
       if (document.getElementById("presence_"+code).checked==false)
       {
         for (i = 0; i < nb_parties; i++) {
           document.getElementById(i+"_gagne_"+code).value=-1;
-          document.getElementById(i+"_perdu_"+code).value=-1
+          document.getElementById(i+"_perdu_"+code).value=-1;
         }
       }
+  }
+
+  /*
+   * Fonction permettant de rentrer les résultats à partir d'un copier/coller d'une feuille d'excel 
+   */ 
+  function update_resultat_excel(nb_point_max)
+  {
+    elementArea = document.getElementById('excelPaste');
+    const text = elementArea.value;
+
+    elementArea.value = "";
+    elementArea.placeholder = "";
+
+    // chaque ligne est séparée par le caractère '\n'
+    // char colonne est séparée par le caractère '\t'
+    const rows = text.split('\n').map(line => line.split('\t'));
+
+    rows.forEach((cols) => {
+      const joueur = cols[0];
+      if(!joueur) return;
+
+      const parts = joueur.trim().split(/\s+/); // coupe sur 1 ou plusieurs espaces
+      const prenom = parts.pop();               // prend le dernier mot
+      const nom = parts.join(' ');              // tout le reste = nom complet
+
+      // Trouver le code associé au joueur
+      const elementName = document.getElementById("name_"+nom+","+prenom);
+      if (!elementName){  
+        elementArea.placeholder += "[ERREUR] " + joueur + " non trouvé\n";
+      }
+      else
+      {
+        const code = elementName.getAttribute('data-code');
+      
+        document.getElementById("presence_"+code).checked=true;
+        // met à jour les scores des parties
+        for (let p = 0; p < ((cols.length-1)/2); p++) {
+          const pourVal = parseInt(cols[p * 2 + 1]) || nb_point_max;
+          const contreVal = parseInt(cols[p * 2 + 2]) || 7;
+          
+          document.getElementById(p+"_gagne_"+code).value=pourVal;
+          document.getElementById(p+"_perdu_"+code).value=contreVal;
+        }
+      }
+    });
+    
+    elementArea.placeholder += "Mise à jour terminée\n";
   }
 </script>
 
