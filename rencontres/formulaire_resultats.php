@@ -391,9 +391,14 @@ Scripts permettant de facilité la rentré des résultats
         document.getElementById("presence_"+code).checked=true;
         // met à jour les scores des parties
         for (let p = 0; p < ((cols.length-1)/2); p++) {
-          const pourVal = parseInt(cols[p * 2 + 1]) || nb_point_max;
-          const contreVal = parseInt(cols[p * 2 + 2]) || 7;
-          
+          pourVal = parseInt(cols[p * 2 + 1]) || 0;
+          contreVal = parseInt(cols[p * 2 + 2]) || 0;
+
+          if ((pourVal + contreVal)==0)
+          {
+            pourVal = nb_point_max;
+            contreVal = 7;
+          }
           document.getElementById(p+"_gagne_"+code).value=pourVal;
           document.getElementById(p+"_perdu_"+code).value=contreVal;
         }
